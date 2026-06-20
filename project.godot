@@ -11,8 +11,14 @@ config_version=5
 [application]
 
 config/name="SpinToWinTab"
+run/main_scene="uid://hrvq4vulkxkk"
 config/features=PackedStringArray("4.6", "Forward Plus")
 config/icon="res://icon.svg"
+
+[display]
+
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 
 [physics]
 
