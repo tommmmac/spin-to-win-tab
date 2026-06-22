@@ -1,0 +1,180 @@
+[gd_scene format=3 uid="uid://hrvq4vulkxkk"]
+
+[ext_resource type="Script" uid="uid://qg5aeufj73tn" path="res://Scripts/Main Menu/LobbyMenu.gd" id="1_ep833"]
+[ext_resource type="Texture2D" uid="uid://7o18gyn7rvou" path="res://Assets/Backgrounds/SpinToWin.jpg" id="2_77jr3"]
+
+[sub_resource type="GDScript" id="GDScript_tt5f1"]
+script/source = "extends  Button
+
+var tween: Tween
+@export var flash_color: Color = Color(2, 1, 0.1)
+@export var flash_speed: float = 0.4
+
+func ready():
+	mouse_entered.connect(start_flash)
+	mouse_exited.connect(stop_flash)
+	
+func start_flash():
+	if tween:
+		tween.kill()
+	tween = create_tween().set_loops()
+	tween.tween_property(self, \"modulate\", flash_color, flash_speed)
+	tween.tween_property(self, \"modulate\", Color.BLACK, flash_speed)
+	
+func stop_flash():
+	if tween:
+		tween.kill()
+	tween = create_tween()
+	tween.tween_property(self, \"modulate\", Color.BLACK, flash_speed * 0.5)
+"
+
+[node name="MainMenu" type="Control" unique_id=368652637]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_ep833")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=619467903]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("2_77jr3")
+expand_mode = 1
+
+[node name="MainMenuContainer" type="VBoxContainer" parent="." unique_id=1513180759]
+visible = false
+layout_mode = 0
+offset_left = 1170.0
+offset_top = 236.0
+offset_right = 1770.0
+offset_bottom = 844.0
+
+[node name="Create" type="Button" parent="MainMenuContainer" unique_id=1582196940]
+custom_minimum_size = Vector2(600, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "Create"
+script = SubResource("GDScript_tt5f1")
+
+[node name="Join" type="Button" parent="MainMenuContainer" unique_id=1427554991]
+custom_minimum_size = Vector2(600, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "Join"
+script = SubResource("GDScript_tt5f1")
+
+[node name="Quit" type="Button" parent="MainMenuContainer" unique_id=1561455731]
+custom_minimum_size = Vector2(600, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 100
+text = "Quit"
+script = SubResource("GDScript_tt5f1")
+
+[node name="CreateContainer" type="VBoxContainer" parent="." unique_id=428451639]
+layout_mode = 0
+offset_left = 1170.0
+offset_top = 30.0
+offset_right = 1770.0
+offset_bottom = 1046.0
+
+[node name="PlayerNameInput" type="LineEdit" parent="CreateContainer" unique_id=261302786]
+custom_minimum_size = Vector2(600, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+placeholder_text = "Player Name:"
+alignment = 1
+
+[node name="RoomNameInput" type="LineEdit" parent="CreateContainer" unique_id=585899270]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+placeholder_text = "Room Name:"
+alignment = 1
+
+[node name="PasswordInput" type="LineEdit" parent="CreateContainer" unique_id=973311152]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+placeholder_text = "Password:"
+alignment = 1
+secret = true
+secret_character = "*"
+
+[node name="MaxPlayerContainer" type="HBoxContainer" parent="CreateContainer" unique_id=1434947602]
+layout_mode = 2
+
+[node name="MaxPlayerLabel" type="Label" parent="CreateContainer/MaxPlayerContainer" unique_id=183101941]
+light_mask = 0
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+theme_override_font_sizes/font_size = 83
+text = "Max Players:"
+
+[node name="SpinBox" type="SpinBox" parent="CreateContainer/MaxPlayerContainer" unique_id=702737294]
+layout_mode = 2
+theme_override_constants/buttons_width = 21
+min_value = 2.0
+max_value = 6.0
+value = 2.0
+alignment = 1
+
+[node name="CreateButton" type="Button" parent="CreateContainer" unique_id=979126094]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "Create Lobby"
+
+[node name="BackButton" type="Button" parent="CreateContainer" unique_id=792190897]
+custom_minimum_size = Vector2(0, 150)
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "Return to Lobby"
+
+[node name="JoinContainer" type="VBoxContainer" parent="." unique_id=1171367121]
+visible = false
+layout_mode = 0
+offset_left = 1170.0
+offset_top = 30.0
+offset_right = 1770.0
+offset_bottom = 1046.0
+
+[node name="PlayerNameInput" type="LineEdit" parent="JoinContainer" unique_id=2097868109]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+placeholder_text = "Player Name:"
+alignment = 1
+
+[node name="RoomNameInput" type="LineEdit" parent="JoinContainer" unique_id=769180653]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+placeholder_text = "Room Name:"
+alignment = 1
+
+[node name="PasswordInput" type="LineEdit" parent="JoinContainer" unique_id=1036309964]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+placeholder_text = "Password:"
+alignment = 1
+secret = true
+secret_character = "*"
+
+[node name="JoinLobbyButton" type="Button" parent="JoinContainer" unique_id=1459927045]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "Join Lobby"
+
+[node name="BackButton" type="Button" parent="JoinContainer" unique_id=786423089]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+theme_override_font_sizes/font_size = 60
+text = "Return to Menu"
+
+[connection signal="pressed" from="MainMenuContainer/Create" to="." method="_on_create_button_pressed"]
+[connection signal="pressed" from="MainMenuContainer/Join" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="CreateContainer/CreateButton" to="." method="_on_test_button_pressed"]
+[connection signal="pressed" from="CreateContainer/BackButton" to="." method="_on_back_pressed"]
+[connection signal="pressed" from="JoinContainer/JoinLobbyButton" to="." method="_on_join_lobby_pressed"]
+[connection signal="pressed" from="JoinContainer/BackButton" to="." method="_on_back_pressed"]

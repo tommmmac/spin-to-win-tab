@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://di1i3ow4y2ni1"]
+
+[ext_resource type="Script" uid="uid://ch3v82eqigbnh" path="res://Scripts/Main Menu/GameLobby.gd" id="1_f8bvt"]
+
+[node name="GameLobby" type="Node2D" unique_id=951234834]
+script = ExtResource("1_f8bvt")
+
+[node name="Players" type="Node2D" parent="." unique_id=1530648440]
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=374795415]
