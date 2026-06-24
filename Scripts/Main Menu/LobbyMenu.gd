@@ -1,4 +1,3 @@
-# MainMenu.gd
 extends Control
 
 @onready var main_panel = $MainMenuContainer
@@ -48,34 +47,25 @@ func _on_create_lobby_pressed():
 	GameState.player_name = player_name
 	GameState.pending_room_name = room_name
 	GameState.pending_password = password
-	GameState.pending_max_players = max_p  # store so callback can access it
-	
-	
+	GameState.pending_max_players = max_p
+
 	print("Calling createLobby, max players: ", max_p)
 	Steam.createLobby(Steam.LOBBY_TYPE_PUBLIC, max_p)
 
 func _on_lobby_created(response: int, lobby_id: int):
-	print("_on_lobby_created fired, response: ", response, " lobby_id: ", lobby_id)
 	if response == 1:
-		# Set lobby metadata
 		Steam.setLobbyData(lobby_id, "room_name", GameState.pending_room_name)
 		Steam.setLobbyData(lobby_id, "password", GameState.pending_password)
 
-		# Set up P2P multiplayer peer
 		var peer = SteamMultiplayerPeer.new()
-		peer.create_host(0)  # 0 = use Steam's default config
+		peer.create_host(0)
 		multiplayer.multiplayer_peer = peer
-
 		GameState.lobby_id = lobby_id
 		print("Lobby created and hosted: ", lobby_id)
+		await get_tree().create_timer(1.0).timeout
 		get_tree().change_scene_to_file("res://scenes/Initialisation/GameLobby.tscn")
-	else:
-		print("Failed to create lobby, response: ", response)
 
 func _on_join_lobby_pressed():
-	
-	print("button hit")
-	
 	var player_name = join_player_name.text.strip_edges()
 	var room_name = join_room_name.text.strip_edges()
 	var password = join_password.text
@@ -107,18 +97,13 @@ func _on_lobby_match_list(lobbies: Array):
 
 func _on_lobby_joined(lobby_id: int, _permissions: int, _locked: bool, response: int):
 	if response == 1:
-		
 		if lobby_id == GameState.lobby_id:
 			print("Host, skipping client setup")
 			return
-		
-		# Set up P2P multiplayer peer as client
 		var peer = SteamMultiplayerPeer.new()
 		peer.create_client(lobby_id)
 		multiplayer.multiplayer_peer = peer
-
 		GameState.lobby_id = lobby_id
 		print("Joined lobby: ", lobby_id)
+		await get_tree().create_timer(2.0).timeout
 		get_tree().change_scene_to_file("res://scenes/Initialisation/GameLobby.tscn")
-	else:
-		print("Failed to join lobby, response: ", response)
