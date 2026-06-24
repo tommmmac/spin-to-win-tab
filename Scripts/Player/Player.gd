@@ -81,9 +81,9 @@ func _send_position(delta):
 	last_sent_pos = global_position
 
 	var lobby = get_tree().current_scene
-
+	
 	if multiplayer.is_server():
-		@rpc("authority", "call_remote", "unreliable")
+		
 		lobby.broadcast_pos.rpc(global_position, steam_id)
 	else:
 		lobby.relay_pos.rpc_id(1, global_position, steam_id)
