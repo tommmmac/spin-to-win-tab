@@ -8,28 +8,48 @@ func _ready():
 	print("Am I host: ", multiplayer.is_server())
 	
 	Steam.lobby_chat_update.connect(_on_lobby_member_changed)
-	multiplayer.peer_connected.connect(_on_peer_connected)
+	Steam.lobby_data_update.connect(_on_lobby_data_update)
 	
-	# Spawn all current lobby members directly from Steam
+	await get_tree().process_frame
+	
 	var member_count = Steam.getNumLobbyMembers(GameState.lobby_id)
 	print("Member count: ", member_count)
 	for i in range(member_count):
 		var member_id = Steam.getLobbyMemberByIndex(GameState.lobby_id, i)
-		var p_name = Steam.getLobbyMemberData(GameState.lobby_id, member_id, "player_name")
-		if p_name == "":
-			p_name = Steam.getFriendPersonaName(member_id)  # fallback
-		spawn_player(member_id, p_name)
+		_spawn_or_update(member_id)
 
+func _spawn_or_update(member_id: int):
+	var p_name = Steam.getLobbyMemberData(GameState.lobby_id, member_id, "player_name")
+	if p_name == "":
+		p_name = Steam.getFriendPersonaName(member_id)  # fallback
+	print("Name for ", member_id, ": ", p_name)
+	
+	var id_str = str(member_id)
+	# If already spawned, just update the name
+	if players_node.has_node(id_str):
+		players_node.get_node(id_str).player_name = p_name
+		players_node.get_node(id_str).get_node("PlayerName").text = p_name
+		return
+	spawn_player(member_id, p_name)
+	
+
+func _on_lobby_data_update(_success: int, lobby_id: int, member_id: int):
+	# Fires when any member's data changes — refresh their name
+	if member_id != 0:
+		print("Member data updated: ", member_id)
+		_spawn_or_update(member_id)
+
+	
 
 func _on_peer_connected(id: int):
 	print("Peer connected: ", id)
 
 func _on_lobby_member_changed(_lobby_id: int, change_id: int, _making_change_id: int, chat_change: int):
 	if chat_change == 1:
-		var p_name = Steam.getLobbyMemberData(GameState.lobby_id, change_id, "player_name")
-		if p_name == "":
-			p_name = Steam.getFriendPersonaName(change_id)
-		spawn_player(change_id, p_name)
+		print("Member joined: ", change_id)
+		# Wait a moment for their member data to propagate
+		await get_tree().create_timer(0.5).timeout
+		_spawn_or_update(change_id)
 		
 func spawn_player(steam_id: int, p_name: String):
 	var id_str = str(steam_id)
