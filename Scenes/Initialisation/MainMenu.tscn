@@ -8,6 +8,51 @@
 [ext_resource type="Texture2D" uid="uid://c8kwav8ggyb7x" path="res://Assets/Sprites/Buttons/join_btn_hover.png" id="6_jx5i6"]
 [ext_resource type="Texture2D" uid="uid://60et7vgh5uj" path="res://Assets/Sprites/Buttons/quit_btn.png" id="7_v5i8f"]
 [ext_resource type="Texture2D" uid="uid://6dc0w4v322bt" path="res://Assets/Sprites/Buttons/quit_btn_hover.png" id="8_d4084"]
+[ext_resource type="Texture2D" uid="uid://cbo8usal51s1t" path="res://Assets/Sprites/Buttons/create_lob_btn.png" id="9_3wfwo"]
+[ext_resource type="Texture2D" uid="uid://338jrm1no2pj" path="res://Assets/Sprites/Buttons/back_btn.png" id="9_v5i8f"]
+[ext_resource type="Texture2D" uid="uid://c4j3vgiu3mk4" path="res://Assets/Sprites/Buttons/back_btn_hover.png" id="10_d4084"]
+[ext_resource type="Texture2D" uid="uid://bfyduivxw1ako" path="res://Assets/Sprites/Buttons/create_lob_btn_hover.png" id="10_fe0cq"]
+[ext_resource type="Texture2D" uid="uid://bshrup5ikoe4o" path="res://Assets/Sprites/Buttons/input_btn.png" id="13_fe0cq"]
+[ext_resource type="Texture2D" uid="uid://mpdce2qbwxt4" path="res://Assets/Sprites/Buttons/join_lob_btn.png" id="13_ojqaw"]
+[ext_resource type="Texture2D" uid="uid://032vc6rsexan" path="res://Assets/Sprites/Buttons/join_lob_btn_hover.png" id="14_fqyhv"]
+[ext_resource type="Texture2D" uid="uid://bisv3alqbjo63" path="res://Assets/Sprites/Buttons/input_btn2.png" id="14_mqwyy"]
+[ext_resource type="Texture2D" uid="uid://dx2c7b8yfkpn2" path="res://Assets/Sprites/Buttons/input_btn3.png" id="15_uwfw4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_uwfw4"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_a5ar6"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_y10a5"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l2apj"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_0p101"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wuy0u"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_6e5n0"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_eeuso"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_5s5qk"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ojqaw"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_fqyhv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mqwyy"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_4u8ii"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3qews"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_upago"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8pirf"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_3gw0c"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_vx23e"]
 
 [node name="MainMenu" type="Control" unique_id=368652637]
 layout_mode = 3
@@ -22,6 +67,7 @@ texture = ExtResource("2_77jr3")
 expand_mode = 1
 
 [node name="MainMenuContainer" type="VBoxContainer" parent="." unique_id=1513180759]
+visible = false
 layout_mode = 0
 offset_left = 946.0
 offset_top = 188.0
@@ -48,31 +94,75 @@ texture_hover = ExtResource("8_d4084")
 stretch_mode = 5
 
 [node name="CreateContainer" type="VBoxContainer" parent="." unique_id=428451639]
-visible = false
 layout_mode = 0
-offset_left = 1170.0
-offset_top = 30.0
-offset_right = 1770.0
-offset_bottom = 1046.0
+offset_left = 1205.0
+offset_top = 122.0
+offset_right = 1805.0
+offset_bottom = 1138.0
 
-[node name="PlayerNameInput" type="LineEdit" parent="CreateContainer" unique_id=261302786]
-custom_minimum_size = Vector2(600, 200)
+[node name="PlayerName" type="TextureRect" parent="CreateContainer" unique_id=1427034051]
 layout_mode = 2
+texture = ExtResource("14_mqwyy")
+
+[node name="PlayerNameInput" type="LineEdit" parent="CreateContainer/PlayerName" unique_id=261302786]
+custom_minimum_size = Vector2(600, 200)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_uneditable_color = Color(0, 0, 0, 0.5019608)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 0.6)
+theme_override_colors/caret_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxEmpty_uwfw4")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_a5ar6")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_y10a5")
 placeholder_text = "Player Name:"
 alignment = 1
 
-[node name="RoomNameInput" type="LineEdit" parent="CreateContainer" unique_id=585899270]
-custom_minimum_size = Vector2(0, 200)
+[node name="RoomName" type="TextureRect" parent="CreateContainer" unique_id=5988063]
 layout_mode = 2
+texture = ExtResource("13_fe0cq")
+
+[node name="RoomNameInput" type="LineEdit" parent="CreateContainer/RoomName" unique_id=585899270]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 0.6)
 theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxEmpty_l2apj")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_0p101")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_wuy0u")
 placeholder_text = "Room Name:"
 alignment = 1
 
-[node name="PasswordInput" type="LineEdit" parent="CreateContainer" unique_id=973311152]
-custom_minimum_size = Vector2(0, 200)
+[node name="Password" type="TextureRect" parent="CreateContainer" unique_id=300130764]
 layout_mode = 2
+texture = ExtResource("14_mqwyy")
+
+[node name="PasswordInput" type="LineEdit" parent="CreateContainer/Password" unique_id=973311152]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 0.6)
 theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxEmpty_6e5n0")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_eeuso")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_5s5qk")
 placeholder_text = "Password:"
 alignment = 1
 secret = true
@@ -96,17 +186,19 @@ max_value = 6.0
 value = 2.0
 alignment = 1
 
-[node name="CreateButton" type="Button" parent="CreateContainer" unique_id=979126094]
+[node name="CreateButton" type="TextureButton" parent="CreateContainer" unique_id=770941487]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
-theme_override_font_sizes/font_size = 60
-text = "Create Lobby"
+texture_normal = ExtResource("9_3wfwo")
+texture_hover = ExtResource("10_fe0cq")
+stretch_mode = 0
 
-[node name="BackButton" type="Button" parent="CreateContainer" unique_id=792190897]
+[node name="BackButton" type="TextureButton" parent="CreateContainer" unique_id=2019218329]
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
-theme_override_font_sizes/font_size = 60
-text = "Return to Lobby"
+texture_normal = ExtResource("9_v5i8f")
+texture_hover = ExtResource("10_d4084")
+stretch_mode = 0
 
 [node name="JoinContainer" type="VBoxContainer" parent="." unique_id=1171367121]
 visible = false
@@ -116,40 +208,92 @@ offset_top = 30.0
 offset_right = 1770.0
 offset_bottom = 1046.0
 
-[node name="PlayerNameInput" type="LineEdit" parent="JoinContainer" unique_id=2097868109]
-custom_minimum_size = Vector2(0, 200)
+[node name="PlayerName" type="TextureRect" parent="JoinContainer" unique_id=1215772016]
 layout_mode = 2
+size_flags_vertical = 3
+texture = ExtResource("13_fe0cq")
+
+[node name="PlayerNameInput" type="LineEdit" parent="JoinContainer/PlayerName" unique_id=2097868109]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_uneditable_color = Color(0, 0, 0, 0.5019608)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 0.6)
+theme_override_colors/selection_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxEmpty_ojqaw")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_fqyhv")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_mqwyy")
 placeholder_text = "Player Name:"
 alignment = 1
 
-[node name="RoomNameInput" type="LineEdit" parent="JoinContainer" unique_id=769180653]
-custom_minimum_size = Vector2(0, 200)
+[node name="RoomName" type="TextureRect" parent="JoinContainer" unique_id=74402484]
 layout_mode = 2
+texture = ExtResource("14_mqwyy")
+
+[node name="RoomNameInput" type="LineEdit" parent="JoinContainer/RoomName" unique_id=769180653]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 0.6)
+theme_override_colors/caret_color = Color(0, 0, 0, 1)
+theme_override_colors/selection_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxEmpty_4u8ii")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_3qews")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_upago")
 placeholder_text = "Room Name:"
 alignment = 1
 
-[node name="PasswordInput" type="LineEdit" parent="JoinContainer" unique_id=1036309964]
-custom_minimum_size = Vector2(0, 200)
+[node name="Password" type="TextureRect" parent="JoinContainer" unique_id=191313980]
 layout_mode = 2
+texture = ExtResource("15_uwfw4")
+
+[node name="PasswordInput" type="LineEdit" parent="JoinContainer/Password" unique_id=1036309964]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_colors/font_selected_color = Color(0, 0, 0, 1)
+theme_override_colors/font_placeholder_color = Color(0, 0, 0, 0.6)
 theme_override_font_sizes/font_size = 60
+theme_override_styles/normal = SubResource("StyleBoxEmpty_8pirf")
+theme_override_styles/read_only = SubResource("StyleBoxEmpty_3gw0c")
+theme_override_styles/focus = SubResource("StyleBoxEmpty_vx23e")
 placeholder_text = "Password:"
 alignment = 1
 secret = true
 secret_character = "*"
 
-[node name="JoinLobbyButton" type="Button" parent="JoinContainer" unique_id=1459927045]
+[node name="JoinLobbyButton" type="TextureButton" parent="JoinContainer" unique_id=1616633429]
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
-theme_override_font_sizes/font_size = 60
-text = "Join Lobby"
+texture_normal = ExtResource("13_ojqaw")
+texture_hover = ExtResource("14_fqyhv")
+stretch_mode = 0
 
-[node name="BackButton" type="Button" parent="JoinContainer" unique_id=786423089]
+[node name="BackButton" type="TextureButton" parent="JoinContainer" unique_id=576903189]
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
-theme_override_font_sizes/font_size = 60
-text = "Return to Menu"
+texture_normal = ExtResource("9_v5i8f")
+texture_hover = ExtResource("10_d4084")
+stretch_mode = 0
 
 [connection signal="pressed" from="MainMenuContainer/CreateBtn" to="." method="_on_create_button_pressed"]
 [connection signal="pressed" from="MainMenuContainer/JoinBtn" to="." method="_on_join_button_pressed"]
