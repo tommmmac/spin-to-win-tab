@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://cy2jar7bitosj"]
+
+[ext_resource type="Script" uid="uid://cyxblsjsb2iou" path="res://Scripts/Main Menu/leaderboard/player_entry.gd" id="1_jhtl2"]
+[ext_resource type="Texture2D" uid="uid://nvowr06k8s13" path="res://Assets/Sprites/heart_full.png" id="2_86hvv"]
+[ext_resource type="Texture2D" uid="uid://g18j1jdurbbc" path="res://Assets/Sprites/heart_empty.png" id="3_cogpr"]
+
+[node name="PlayerEntry" type="HBoxContainer" unique_id=846420855]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_jhtl2")
+full_heart = ExtResource("2_86hvv")
+empty_heart = ExtResource("3_cogpr")
+
+[node name="PlayerSprite" type="TextureRect" parent="." unique_id=1795446509]
+layout_mode = 2
+
+[node name="PlayerLabel" type="Label" parent="." unique_id=1303394120]
+layout_mode = 2
+
+[node name="HeartContainer" type="HBoxContainer" parent="." unique_id=1347672178]
+layout_mode = 2
+
+[node name="Heart1" type="TextureRect" parent="HeartContainer" unique_id=1934199082]
+layout_mode = 2
+
+[node name="Heart2" type="TextureRect" parent="HeartContainer" unique_id=1295596643]
+layout_mode = 2
+
+[node name="Heart3" type="TextureRect" parent="HeartContainer" unique_id=1192583918]
+layout_mode = 2

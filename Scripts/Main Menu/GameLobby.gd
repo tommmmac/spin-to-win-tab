@@ -4,14 +4,6 @@ extends Node2D
 var player_scene = preload("res://Assets/Sprites/Player/Player.tscn")
 
 
-const SPRITES = [
-	"res://Assets/Sprites/Player/PlayerBlue.png",
-	"res://Assets/Sprites/Player/PlayerGreen.png",
-	"res://Assets/Sprites/Player/PlayerYellow.png",
-	"res://Assets/Sprites/Player/PlayerOrange.png",
-	"res://Assets/Sprites/Player/PlayerRed.png",
-	"res://Assets/Sprites/Player/PlayerWhite.png",
-]
 
 func _ready():
 	print("My peer ID: ", multiplayer.get_unique_id())
@@ -42,7 +34,7 @@ func _spawn_or_update(member_id: int):
 		var existing = players_node.get_node(id_str)
 		existing.player_name = p_name
 		existing.get_node("PlayerName").text = p_name
-		existing.get_node("Sprite2D").texture = load(SPRITES[sprite_idx])
+		existing.get_node("Sprite2D").texture = load(GameState.SPRITES[sprite_idx])
 		return
 	spawn_player(member_id, p_name, sprite_idx)
 	
@@ -101,8 +93,15 @@ func spawn_player(steam_id: int, p_name: String, sprite_idx: int = 0):
 	player.steam_id = steam_id
 	player.player_name = p_name
 	player.position = Vector2(randf_range(-400, 400), randf_range(-200, 200))
-	player.get_node("Sprite2D").texture = load(SPRITES[sprite_idx])
+	player.get_node("Sprite2D").texture = load(GameState.SPRITES[sprite_idx])
 	players_node.add_child(player)
+	
+	GameState.players.append({
+		"steam_id": steam_id,
+		"player_name": p_name,
+		"sprite_idx": sprite_idx,
+		"hearts": 3
+	})
 
 
 @rpc("any_peer", "call_remote", "unreliable")
@@ -124,5 +123,10 @@ func _on_start_game_btn_pressed() -> void:
 	if not multiplayer.is_server():
 		print("Only da host starts")
 		return
-		
+	start_game.rpc()
 	## Start game logic here
+	
+	
+@rpc("authority", "call_local")
+func start_game():
+	get_tree().change_scene_to_file("res://Scenes/Initialisation/Leaderboard.tscn")
