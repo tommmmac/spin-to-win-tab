@@ -3,6 +3,21 @@ extends Node2D
 @onready var players_node = $Players
 var player_scene = preload("res://Assets/Sprites/Player/Player.tscn")
 
+
+const SPRITES = [
+	"res://Assets/Sprites/Player/PlayerBlue.png",
+	"res://Assets/Sprites/Player/PlayerGreen.png",
+	"res://Assets/Sprites/Player/PlayerYellow.png",
+	
+	
+	
+	
+	
+	
+]
+
+var used_sprites: Array = []
+
 func _ready():
 	print("My peer ID: ", multiplayer.get_unique_id())
 	print("Am I host: ", multiplayer.is_server())
@@ -60,10 +75,20 @@ func spawn_player(steam_id: int, p_name: String):
 	var id_str = str(steam_id)
 	if players_node.has_node(id_str):
 		return
+		
+	# sprite logic
+	var available = SPRITES.filter(func(s): return s not in used_sprites)
+	if available.is_empty():
+		available = SPRITES
+		
+	var sprite_path = available[randi() % available.size()]
+	used_sprites.append(sprite_path)
+		
 	print("Spawning: ", p_name, " ", steam_id)
 	var player = player_scene.instantiate()
 	player.name = id_str
 	player.steam_id = steam_id
 	player.player_name = p_name
 	player.position = Vector2(randf_range(-400, 400), randf_range(-200, 200))
+	player.get_node("Sprite2D").texture = load(sprite_path)
 	players_node.add_child(player)
