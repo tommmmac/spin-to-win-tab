@@ -1,10 +1,80 @@
 [gd_scene format=3 uid="uid://di1i3ow4y2ni1"]
 
 [ext_resource type="Script" uid="uid://ch3v82eqigbnh" path="res://Scripts/Main Menu/GameLobby.gd" id="1_f8bvt"]
+[ext_resource type="PackedScene" uid="uid://gd07t0oo6opa" path="res://Scenes/Initialisation/LobbyTornado.tscn" id="2_spd85"]
+[ext_resource type="Texture2D" uid="uid://c2m6rxbstfmr1" path="res://Assets/Sprites/StartBtn.png" id="3_ar8rc"]
+[ext_resource type="Texture2D" uid="uid://doru7qpdd8hn8" path="res://Assets/Sprites/StartBtnHover1.png" id="4_4gtyj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_f8bvt"]
 
 [node name="GameLobby" type="Node2D" unique_id=951234834]
 script = ExtResource("1_f8bvt")
 
+[node name="Tornados" type="Node2D" parent="." unique_id=607370315]
+
+[node name="LobbyTornado" parent="Tornados" unique_id=97069055 instance=ExtResource("2_spd85")]
+position = Vector2(-461, -279)
+
+[node name="LobbyTornado2" parent="Tornados" unique_id=214798207 instance=ExtResource("2_spd85")]
+position = Vector2(414, 315)
+
+[node name="LobbyTornado3" parent="Tornados" unique_id=1149356306 instance=ExtResource("2_spd85")]
+position = Vector2(290, -99)
+
+[node name="LobbyTornado4" parent="Tornados" unique_id=248479731 instance=ExtResource("2_spd85")]
+position = Vector2(-760, 104)
+
+[node name="LobbyTornado5" parent="Tornados" unique_id=1921764894 instance=ExtResource("2_spd85")]
+position = Vector2(-134, 146)
+
 [node name="Players" type="Node2D" parent="." unique_id=1530648440]
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=374795415]
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1331469580]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -276.5
+offset_top = 300.0
+offset_right = 276.5
+offset_bottom = 445.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Button" type="TextureButton" parent="HBoxContainer" unique_id=299955457]
+layout_mode = 2
+texture_normal = ExtResource("3_ar8rc")
+texture_hover = ExtResource("4_4gtyj")
+
+[node name="BottomBarrier" type="StaticBody2D" parent="." unique_id=331592139]
+position = Vector2(0, 520)
+disable_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BottomBarrier" unique_id=1217632634]
+scale = Vector2(100, 1)
+shape = SubResource("RectangleShape2D_f8bvt")
+
+[node name="TopBarrier" type="StaticBody2D" parent="." unique_id=490241309]
+position = Vector2(0, -520)
+disable_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="TopBarrier" unique_id=1838130100]
+scale = Vector2(100, 1)
+shape = SubResource("RectangleShape2D_f8bvt")
+
+[node name="LeftBarrier" type="StaticBody2D" parent="." unique_id=1127704873]
+position = Vector2(-940, 0)
+disable_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftBarrier" unique_id=738419517]
+scale = Vector2(1, 55)
+shape = SubResource("RectangleShape2D_f8bvt")
+
+[node name="RightBarrier" type="StaticBody2D" parent="." unique_id=887778044]
+position = Vector2(940, 0)
+disable_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightBarrier" unique_id=219102111]
+scale = Vector2(1, 55)
+shape = SubResource("RectangleShape2D_f8bvt")

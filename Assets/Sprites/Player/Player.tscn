@@ -1,18 +1,17 @@
 [gd_scene format=3 uid="uid://drktwkv302u76"]
 
-[ext_resource type="Texture2D" uid="uid://drk6u01xdav38" path="res://Assets/Sprites/Player/TornadoSprite.png" id="1_8gu88"]
 [ext_resource type="Script" uid="uid://bltddfq3su5ea" path="res://Scripts/Player/Player.gd" id="1_y7e56"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_84rf6"]
 
-[node name="Player" type="CharacterBody2D" unique_id=494855028]
+[node name="Player" type="CharacterBody2D" unique_id=494855028 groups=["player"]]
 script = ExtResource("1_y7e56")
 speed = 500.0
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1492194960]
-texture = ExtResource("1_8gu88")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1468656058]
+scale = Vector2(3, 3)
 shape = SubResource("RectangleShape2D_84rf6")
 
 [node name="PlayerName" type="Label" parent="." unique_id=656239709]
