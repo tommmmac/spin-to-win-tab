@@ -83,22 +83,14 @@ func spawn_player(steam_id: int, p_name: String, sprite_idx: int = 0):
 
 @rpc("any_peer", "call_remote", "unreliable")
 func relay_pos(new_pos: Vector2, sender_steam_id: int):
-	if not multiplayer.is_server():
-		return
-
 	_apply_pos(new_pos, sender_steam_id)
 	broadcast_pos.rpc(new_pos, sender_steam_id)
-
 
 @rpc("authority", "call_remote", "unreliable")
 func broadcast_pos(new_pos: Vector2, sender_steam_id: int):
 	_apply_pos(new_pos, sender_steam_id)
 
-
 func _apply_pos(new_pos: Vector2, sender_steam_id: int):
-	if sender_steam_id == Steam.getSteamID():
-		return
-
 	var id_str = str(sender_steam_id)
 	if players_node.has_node(id_str):
-		players_node.get_node(id_str).set_network_position(new_pos)
+		players_node.get_node(id_str).position = new_pos
