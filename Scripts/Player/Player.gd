@@ -12,7 +12,6 @@ var fling_recovery_time: float = 0.6
 
 func _ready():
 	name_label.text = player_name
-
 func _physics_process(_delta):
 	if steam_id != Steam.getSteamID():
 		return
@@ -32,19 +31,28 @@ func _physics_process(_delta):
 	
 	if multiplayer.has_multiplayer_peer():
 		if multiplayer.is_server():
-			# Host broadcasts directly to all
-			sync_position.rpc(position, steam_id)
+			broadcast_position.rpc(position, steam_id)
 		else:
-			# Client sends to host only
-			sync_position.rpc_id(1, position, steam_id)
+			send_position.rpc_id(1, position, steam_id)
 
+# Client -> Host
 @rpc("any_peer", "call_remote", "unreliable")
-func sync_position(new_pos: Vector2, sender_steam_id: int):
-	if multiplayer.is_server():
-		# Host rebroadcasts to all clients
-		sync_position.rpc(new_pos, sender_steam_id)
-		return
-	# Client applies position to correct player
+func send_position(new_pos: Vector2, sender_steam_id: int):
+	# Apply on host
+	if steam_id == sender_steam_id:
+		position = new_pos
+	else:
+		var players = get_tree().get_nodes_in_group("player")
+		for p in players:
+			if p.steam_id == sender_steam_id:
+				p.position = new_pos
+				break
+	# Rebroadcast to all clients
+	broadcast_position.rpc(new_pos, sender_steam_id)
+
+# Host -> All clients
+@rpc("authority", "call_remote", "unreliable")
+func broadcast_position(new_pos: Vector2, sender_steam_id: int):
 	var players = get_tree().get_nodes_in_group("player")
 	for p in players:
 		if p.steam_id == sender_steam_id:

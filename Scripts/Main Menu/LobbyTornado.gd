@@ -4,7 +4,7 @@ extends Area2D
 @export var change_direction_time: float = 1.5
 @export var wander_strength: float = 1.0
 @export var fling_force: float = 600.0
-@export var bounds: Rect2 = Rect2(0, 0, 1920, 1080)
+@export var bounds: Rect2 = Rect2(-960, -540, 1920, 1080)
 
 var current_direction: Vector2 = Vector2.ZERO
 var target_direction: Vector2 = Vector2.ZERO
