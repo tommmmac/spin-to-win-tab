@@ -116,5 +116,5 @@ func _on_lobby_joined(lobby_id: int, _permissions: int, _locked: bool, response:
 		multiplayer.multiplayer_peer = peer
 		GameState.lobby_id = lobby_id
 		print("Joined lobby: ", lobby_id)
-		await get_tree().create_timer(2.0).timeoutt
+		await get_tree().create_timer(2.0).timeout
 		get_tree().change_scene_to_file("res://scenes/Initialisation/GameLobby.tscn")
