@@ -174,7 +174,7 @@ text = "Return to Menu"
 
 [connection signal="pressed" from="MainMenuContainer/Create" to="." method="_on_create_button_pressed"]
 [connection signal="pressed" from="MainMenuContainer/Join" to="." method="_on_join_button_pressed"]
-[connection signal="pressed" from="CreateContainer/CreateButton" to="." method="_on_test_button_pressed"]
+[connection signal="pressed" from="CreateContainer/CreateButton" to="." method="_on_create_lobby_pressed"]
 [connection signal="pressed" from="CreateContainer/BackButton" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="JoinContainer/JoinLobbyButton" to="." method="_on_join_lobby_pressed"]
 [connection signal="pressed" from="JoinContainer/BackButton" to="." method="_on_back_pressed"]
