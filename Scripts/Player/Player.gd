@@ -12,7 +12,7 @@ var fling_recovery_time: float = 0.6
 
 func _ready():
 	name_label.text = player_name
-func _physics_process(_delta):
+func _physics_process(delta):
 	if steam_id != Steam.getSteamID():
 		return
 	
@@ -25,6 +25,15 @@ func _physics_process(_delta):
 		direction.y += 1
 	if Input.is_action_pressed("ui_up"):
 		direction.y -= 1
+	
+	if flung:
+		# Just let physics carry them, apply friction to slow down
+		velocity = velocity.lerp(Vector2.ZERO, delta * 2.0)
+		move_and_slide()
+		# Check if nearly stopped, return control
+		if velocity.length() < 10.0:
+			flung = false
+		return
 	
 	velocity = direction.normalized() * speed
 	move_and_slide()
