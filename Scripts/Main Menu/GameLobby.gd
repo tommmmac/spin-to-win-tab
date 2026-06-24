@@ -28,6 +28,7 @@ func spawn_player(steam_id: int, p_name: String):
 	if players_node.has_node(id_str):
 		return
 	print("Spawning player: ", p_name, " steam_id: ", steam_id)
+	
 	var player = player_scene.instantiate()
 	player.name = id_str
 	player.steam_id = steam_id
@@ -44,17 +45,22 @@ func _on_peer_connected(id: int):
 	send_player_info.rpc_id(id, Steam.getSteamID(), GameState.player_name)
 	
 func _on_lobby_member_changed(_lobby_id: int, change_id: int, _making_change_id: int, chat_change: int):
-	print("Member changed: ", change_id, " chat_change: ", chat_change)
 	if chat_change == 1:
-		var p_name = Steam.getFriendPersonaName(change_id)
-		print("Spawning joining player: ", change_id, " ", p_name)
-		spawn_player(change_id, p_name)
+		if multiplayer.is_server():
+			# Host: request info from the joiner via RPC
+			print("New member joined: ", change_id)
+		# Everyone re-announces themselves
+		send_player_info.rpc(Steam.getSteamID(), GameState.player_name)
 
 @rpc("any_peer", "call_local")
 func send_player_info(steam_id: int, p_name: String):
 	print("send_player_info received: ", steam_id, " ", p_name)
+	# Remove old wrong spawn if it exists (spawned with Steam name)
+	var id_str = str(steam_id)
+	if players_node.has_node(id_str):
+		players_node.get_node(id_str).queue_free()
+		await get_tree().process_frame
 	spawn_player(steam_id, p_name)
-	
 	
 @rpc("any_peer")
 func request_existing_players():

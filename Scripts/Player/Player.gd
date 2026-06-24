@@ -10,9 +10,9 @@ func _ready():
 	name_label.text = player_name
 
 func _physics_process(_delta):
-	if not is_multiplayer_authority():
+	if steam_id != _get_local_steam_id():
 		return
-	
+		
 	var direction = Vector2.ZERO
 	if Input.is_action_pressed("ui_right"):
 		direction.x += 1
@@ -35,3 +35,6 @@ func sync_position(new_pos: Vector2):
 	if is_multiplayer_authority():
 		return  # ignore if we own this player
 	position = new_pos
+
+func _get_local_steam_id() -> int:
+	return Steam.getSteamID()
