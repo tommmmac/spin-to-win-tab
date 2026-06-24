@@ -6,12 +6,23 @@ extends CharacterBody2D
 var player_name: String = ""
 var steam_id: int = 0
 
+@export var move_speed: float = 200.0
+var flung: bool = false
+var fling_recovery_time: float = 0.6
+
 func _ready():
 	name_label.text = player_name
 
-func _physics_process(_delta):
+func _physics_process(delta):
 	# Only process input for your own player
 	if steam_id != Steam.getSteamID():
+		return
+	
+	if flung:
+		velocity = velocity.lerp(Vector2.ZERO, delta * 2.0)
+		move_and_slide()
+		if velocity.length() < 10.0:
+			flung = false
 		return
 	
 	var direction = Vector2.ZERO

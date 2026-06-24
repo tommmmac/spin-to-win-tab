@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://gd07t0oo6opa"]
+
+[ext_resource type="Texture2D" uid="uid://drk6u01xdav38" path="res://Assets/Sprites/Player/TornadoSprite.png" id="1_73bid"]
+[ext_resource type="Script" uid="uid://pq3cx364va3d" path="res://Scripts/Main Menu/LobbyTornado.gd" id="1_kbj2s"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_73bid"]
+
+[node name="LobbyTornado" type="Area2D" unique_id=1149356306]
+script = ExtResource("1_kbj2s")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=65833251]
+texture = ExtResource("1_73bid")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=327227242]
+scale = Vector2(3, 3)
+shape = SubResource("RectangleShape2D_73bid")
