@@ -43,9 +43,12 @@ func _on_peer_connected(id: int):
 	print("Peer connected: ", id)
 	send_player_info.rpc_id(id, Steam.getSteamID(), GameState.player_name)
 	
-func _on_lobby_member_changed(_lobby_id: int, _change_id: int, _making_change_id: int, chat_change: int):
+func _on_lobby_member_changed(_lobby_id: int, change_id: int, _making_change_id: int, chat_change: int):
+	print("Member changed: ", change_id, " chat_change: ", chat_change)
 	if chat_change == 1:
-		send_player_info.rpc(Steam.getSteamID(), GameState.player_name)
+		var p_name = Steam.getFriendPersonaName(change_id)
+		print("Spawning joining player: ", change_id, " ", p_name)
+		spawn_player(change_id, p_name)
 
 @rpc("any_peer", "call_local")
 func send_player_info(steam_id: int, p_name: String):
