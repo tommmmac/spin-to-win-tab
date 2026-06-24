@@ -1,7 +1,8 @@
 [gd_scene format=3 uid="uid://5mqk8he3dw13"]
 
 [ext_resource type="Script" uid="uid://8jlk0bvueio1" path="res://Scripts/Main Menu/leaderboard/leaderboard.gd" id="1_4fcc1"]
-[ext_resource type="Texture2D" uid="uid://7o18gyn7rvou" path="res://Assets/Backgrounds/SpinToWin.jpg" id="2_cqph7"]
+[ext_resource type="Texture2D" uid="uid://cw2mx4asicisj" path="res://Assets/Backgrounds/leaderboard_background.png" id="2_cqph7"]
+[ext_resource type="Texture2D" uid="uid://tu758gp050ii" path="res://Assets/Backgrounds/Leaderboard.png" id="3_ykn13"]
 
 [node name="LeaderboardScene" type="Control" unique_id=63433048]
 layout_mode = 3
@@ -21,7 +22,29 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_cqph7")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=832604382]
+[node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=1360640262]
+clip_contents = true
+custom_minimum_size = Vector2(700, 800)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -350.0
+offset_top = -400.0
+offset_right = 350.0
+offset_bottom = 400.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_ykn13")
+region_rect = Rect2(0, 0, 400, 800)
+patch_margin_left = 20
+patch_margin_top = 20
+patch_margin_right = 20
+patch_margin_bottom = 20
+
+[node name="MarginContainer" type="MarginContainer" parent="NinePatchRect" unique_id=210813834]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -34,3 +57,12 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect/MarginContainer" unique_id=832604382]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 10

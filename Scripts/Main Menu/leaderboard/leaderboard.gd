@@ -11,5 +11,5 @@ func _ready():
 func populate(players: Array):
 	for p in players:
 		var entry = entry_scene.instantiate()
-		$VBoxContainer.add_child(entry)
+		$NinePatchRect/MarginContainer/VBoxContainer.add_child(entry)
 		entry.setup(p)

@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://g18j1jdurbbc" path="res://Assets/Sprites/heart_empty.png" id="3_cogpr"]
 
 [node name="PlayerEntry" type="HBoxContainer" unique_id=846420855]
+custom_minimum_size = Vector2(0, 60)
 offset_right = 40.0
 offset_bottom = 40.0
 script = ExtResource("1_jhtl2")
@@ -12,10 +13,13 @@ full_heart = ExtResource("2_86hvv")
 empty_heart = ExtResource("3_cogpr")
 
 [node name="PlayerSprite" type="TextureRect" parent="." unique_id=1795446509]
+custom_minimum_size = Vector2(50, 50)
 layout_mode = 2
 
 [node name="PlayerLabel" type="Label" parent="." unique_id=1303394120]
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
 
 [node name="HeartContainer" type="HBoxContainer" parent="." unique_id=1347672178]
 layout_mode = 2
