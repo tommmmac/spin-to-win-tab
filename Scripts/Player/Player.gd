@@ -10,9 +10,10 @@ func _ready():
 	name_label.text = player_name
 
 func _physics_process(_delta):
-	if steam_id != _get_local_steam_id():
+	# Only process input for your own player
+	if steam_id != Steam.getSteamID():
 		return
-		
+	
 	var direction = Vector2.ZERO
 	if Input.is_action_pressed("ui_right"):
 		direction.x += 1
@@ -25,15 +26,12 @@ func _physics_process(_delta):
 	
 	velocity = direction.normalized() * speed
 	move_and_slide()
-	
-	# Always sync position, not just when moving
-	if multiplayer.has_multiplayer_peer():
-		sync_position.rpc(position)
+	sync_position.rpc(position)
 
 @rpc("any_peer", "unreliable")
 func sync_position(new_pos: Vector2):
-	if is_multiplayer_authority():
-		return  # ignore if we own this player
+	if steam_id == Steam.getSteamID():
+		return  # ignore for own player
 	position = new_pos
 
 func _get_local_steam_id() -> int:

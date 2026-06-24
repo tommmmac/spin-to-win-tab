@@ -56,7 +56,10 @@ func _on_lobby_created(response: int, lobby_id: int):
 	if response == 1:
 		Steam.setLobbyData(lobby_id, "room_name", GameState.pending_room_name)
 		Steam.setLobbyData(lobby_id, "password", GameState.pending_password)
-
+		
+		# Set name
+		Steam.setLobbyMemberData(lobby_id, "player_name", GameState.player_name)
+		
 		var peer = SteamMultiplayerPeer.new()
 		peer.create_host(0)
 		multiplayer.multiplayer_peer = peer
@@ -100,6 +103,8 @@ func _on_lobby_joined(lobby_id: int, _permissions: int, _locked: bool, response:
 		if lobby_id == GameState.lobby_id:
 			print("Host, skipping client setup")
 			return
+		#Setting name
+		Steam.setLobbyMemberData(lobby_id, "player_name", GameState.player_name)
 		var peer = SteamMultiplayerPeer.new()
 		peer.create_client(lobby_id)
 		multiplayer.multiplayer_peer = peer

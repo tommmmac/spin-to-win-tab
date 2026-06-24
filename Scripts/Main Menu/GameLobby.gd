@@ -15,19 +15,22 @@ func _ready():
 	print("Member count: ", member_count)
 	for i in range(member_count):
 		var member_id = Steam.getLobbyMemberByIndex(GameState.lobby_id, i)
-		var p_name = Steam.getFriendPersonaName(member_id)
-		print("Spawning member: ", member_id, " ", p_name)
+		var p_name = Steam.getLobbyMemberData(GameState.lobby_id, member_id, "player_name")
+		if p_name == "":
+			p_name = Steam.getFriendPersonaName(member_id)  # fallback
 		spawn_player(member_id, p_name)
+
 
 func _on_peer_connected(id: int):
 	print("Peer connected: ", id)
 
 func _on_lobby_member_changed(_lobby_id: int, change_id: int, _making_change_id: int, chat_change: int):
 	if chat_change == 1:
-		var p_name = Steam.getFriendPersonaName(change_id)
-		print("Member joined: ", change_id, " ", p_name)
+		var p_name = Steam.getLobbyMemberData(GameState.lobby_id, change_id, "player_name")
+		if p_name == "":
+			p_name = Steam.getFriendPersonaName(change_id)
 		spawn_player(change_id, p_name)
-
+		
 func spawn_player(steam_id: int, p_name: String):
 	var id_str = str(steam_id)
 	if players_node.has_node(id_str):
