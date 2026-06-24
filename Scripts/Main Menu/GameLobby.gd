@@ -13,14 +13,13 @@ const SPRITES = [
 	"res://Assets/Sprites/Player/PlayerWhite.png",
 ]
 
-var used_sprites: Array = []
-
 func _ready():
 	print("My peer ID: ", multiplayer.get_unique_id())
 	print("Am I host: ", multiplayer.is_server())
 	
 	Steam.lobby_chat_update.connect(_on_lobby_member_changed)
 	Steam.lobby_data_update.connect(_on_lobby_data_update)
+	multiplayer.peer_connected.connect(_on_peer_connected)
 	
 	await get_tree().process_frame
 	
@@ -35,18 +34,19 @@ func _spawn_or_update(member_id: int):
 	var p_name = Steam.getLobbyMemberData(GameState.lobby_id, member_id, "player_name")
 	if p_name == "":
 		p_name = Steam.getFriendPersonaName(member_id)
-	print("Name for ", member_id, ": '", p_name, "'")
+	
+	var sprite_idx = int(Steam.getLobbyMemberData(GameState.lobby_id, member_id, "sprite_index"))
 	
 	var id_str = str(member_id)
-	print("_spawn_or_update called for: ", member_id, " node exists: ", players_node.has_node(id_str))
 	if players_node.has_node(id_str):
 		var existing = players_node.get_node(id_str)
 		existing.player_name = p_name
 		existing.get_node("PlayerName").text = p_name
+		existing.get_node("Sprite2D").texture = load(SPRITES[sprite_idx])
 		return
-	spawn_player(member_id, p_name)
+	spawn_player(member_id, p_name, sprite_idx)
 	
-
+	
 func _on_lobby_data_update(_success: int, lobby_id: int, member_id: int):
 	# member_id == lobby_id means it's a lobby-level update, not a member update
 	if member_id == lobby_id or member_id == 0:
@@ -68,24 +68,14 @@ func _on_lobby_member_changed(_lobby_id: int, change_id: int, _making_change_id:
 		await get_tree().create_timer(1.0).timeout
 		_spawn_or_update(change_id)
 		
-func spawn_player(steam_id: int, p_name: String):
+func spawn_player(steam_id: int, p_name: String, sprite_idx: int = 0):
 	var id_str = str(steam_id)
 	if players_node.has_node(id_str):
 		return
-		
-	# sprite logic
-	var available = SPRITES.filter(func(s): return s not in used_sprites)
-	if available.is_empty():
-		available = SPRITES
-		
-	var sprite_path = available[randi() % available.size()]
-	used_sprites.append(sprite_path)
-		
-	print("Spawning: ", p_name, " ", steam_id)
 	var player = player_scene.instantiate()
 	player.name = id_str
 	player.steam_id = steam_id
 	player.player_name = p_name
 	player.position = Vector2(randf_range(-400, 400), randf_range(-200, 200))
-	player.get_node("Sprite2D").texture = load(sprite_path)
+	player.get_node("Sprite2D").texture = load(SPRITES[sprite_idx])
 	players_node.add_child(player)

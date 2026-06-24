@@ -59,6 +59,7 @@ func _on_lobby_created(response: int, lobby_id: int):
 		
 		# Set name
 		Steam.setLobbyMemberData(lobby_id, "player_name", GameState.player_name)
+		Steam.setLobbyMemberData(lobby_id, "sprite_index", str(GameState.get_unique_sprite_index()))
 		
 		var peer = SteamMultiplayerPeer.new()
 		peer.create_host(0)
@@ -110,6 +111,7 @@ func _on_lobby_joined(lobby_id: int, _permissions: int, _locked: bool, response:
 		
 		#Setting name
 		Steam.setLobbyMemberData(lobby_id, "player_name", GameState.player_name)
+		Steam.setLobbyMemberData(lobby_id, "sprite_index", str(GameState.get_unique_sprite_index()))
 
 		var peer = SteamMultiplayerPeer.new()
 		peer.create_client(host_steam_id)  # pass host steam ID not lobby ID
