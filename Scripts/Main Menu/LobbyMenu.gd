@@ -103,12 +103,18 @@ func _on_lobby_joined(lobby_id: int, _permissions: int, _locked: bool, response:
 		if lobby_id == GameState.lobby_id:
 			print("Host, skipping client setup")
 			return
+			
+		# Get the host's Steam ID from the lobby owner
+		var host_steam_id = Steam.getLobbyOwner(lobby_id)
+		print("Host steam ID: ", host_steam_id)
+		
 		#Setting name
 		Steam.setLobbyMemberData(lobby_id, "player_name", GameState.player_name)
+
 		var peer = SteamMultiplayerPeer.new()
-		peer.create_client(lobby_id)
+		peer.create_client(host_steam_id)  # pass host steam ID not lobby ID
 		multiplayer.multiplayer_peer = peer
 		GameState.lobby_id = lobby_id
 		print("Joined lobby: ", lobby_id)
-		await get_tree().create_timer(2.0).timeout
+		await get_tree().create_timer(2.0).timeoutt
 		get_tree().change_scene_to_file("res://scenes/Initialisation/GameLobby.tscn")
