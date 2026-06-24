@@ -79,3 +79,18 @@ func spawn_player(steam_id: int, p_name: String, sprite_idx: int = 0):
 	player.position = Vector2(randf_range(-400, 400), randf_range(-200, 200))
 	player.get_node("Sprite2D").texture = load(SPRITES[sprite_idx])
 	players_node.add_child(player)
+
+
+@rpc("any_peer", "call_remote", "unreliable")
+func relay_pos(new_pos: Vector2, sender_steam_id: int):
+	_apply_pos(new_pos, sender_steam_id)
+	broadcast_pos.rpc(new_pos, sender_steam_id)
+
+@rpc("authority", "call_remote", "unreliable")
+func broadcast_pos(new_pos: Vector2, sender_steam_id: int):
+	_apply_pos(new_pos, sender_steam_id)
+
+func _apply_pos(new_pos: Vector2, sender_steam_id: int):
+	var id_str = str(sender_steam_id)
+	if players_node.has_node(id_str):
+		players_node.get_node(id_str).position = new_pos

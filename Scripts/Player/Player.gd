@@ -37,7 +37,7 @@ func _physics_process(delta):
 	move_and_slide()
 	
 	if multiplayer.has_multiplayer_peer():
-		var lobby = get_parent().get_parent()
+		var lobby = get_tree().current_scene
 		if multiplayer.is_server():
 			lobby.broadcast_pos.rpc(position, steam_id)
 		else:
