@@ -6,6 +6,8 @@ var player_name: String = ""
 var steam_id: int = 0
 var flung: bool = false
 
+var last_sent_pos: Vector2 = Vector2.ZERO
+
 func _ready():
 	call_deferred("_update_label")
 
@@ -37,8 +39,10 @@ func _physics_process(delta):
 	move_and_slide()
 	
 	if multiplayer.has_multiplayer_peer():
-		var lobby = get_tree().current_scene
-		if multiplayer.is_server():
-			lobby.broadcast_pos.rpc(position, steam_id)
-		else:
-			lobby.relay_pos.rpc_id(1, position, steam_id)
+		if position.distance_to(last_sent_pos) > 2.0:
+			last_sent_pos = position
+			var lobby = get_tree().current_scene
+			if multiplayer.is_server():
+				lobby.broadcast_pos.rpc(position, steam_id)
+			else:
+				lobby.relay_pos.rpc_id(1, position, steam_id)
