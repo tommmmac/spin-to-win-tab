@@ -46,6 +46,18 @@ func _spawn_or_update(member_id: int):
 		return
 	spawn_player(member_id, p_name, sprite_idx)
 	
+
+func _sync_players_with_lobby():
+	var current_members := {}
+
+	var member_count = Steam.getNumLobbyMembers(GameState.lobby_id)
+	for i in range(member_count):
+		var member_id = Steam.getLobbyMemberByIndex(GameState.lobby_id, i)
+		current_members[str(member_id)] = true
+
+	for child in players_node.get_children():
+		if not current_members.has(child.name):
+			child.queue_free()
 	
 func _on_lobby_data_update(_success: int, lobby_id: int, member_id: int):
 	# member_id == lobby_id means it's a lobby-level update, not a member update
@@ -57,16 +69,28 @@ func _on_lobby_data_update(_success: int, lobby_id: int, member_id: int):
 
 func _on_peer_connected(id: int):
 	print("Peer connected: ", id)
+	
+func _remove_player(steam_id: int):
+	var id_str = str(steam_id)
+
+	if players_node.has_node(id_str):
+		var player = players_node.get_node(id_str)
+		player.queue_free()
+		print("Removed player: ", steam_id)
 
 func _on_lobby_member_changed(_lobby_id: int, change_id: int, _making_change_id: int, chat_change: int):
 	print("lobby_chat_update fired, change_id: ", change_id, " chat_change: ", chat_change)
-	if chat_change == 1:
+
+	if chat_change == Steam.CHAT_MEMBER_STATE_CHANGE_ENTERED:
 		if change_id == Steam.getSteamID():
-			return  # ignore our own join event
-		print("Member joined: ", change_id)
-		# Wait a moment for their member data to propagate
+			return
+
 		await get_tree().create_timer(1.0).timeout
 		_spawn_or_update(change_id)
+	else:
+		_remove_player(change_id)
+
+	_sync_players_with_lobby()
 		
 func spawn_player(steam_id: int, p_name: String, sprite_idx: int = 0):
 	var id_str = str(steam_id)
