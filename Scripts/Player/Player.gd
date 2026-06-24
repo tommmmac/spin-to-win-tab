@@ -39,7 +39,7 @@ func _physics_process(delta):
 	move_and_slide()
 	
 	if multiplayer.has_multiplayer_peer():
-		if position.distance_to(last_sent_pos) > 2.0:
+		if position.distance_to(last_sent_pos) > 4.0:
 			last_sent_pos = position
 			var lobby = get_tree().current_scene
 			if multiplayer.is_server():
