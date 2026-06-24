@@ -79,9 +79,6 @@ func _on_join_lobby_pressed():
 	var player_name = join_player_name.text.strip_edges()
 	var room_name = join_room_name.text.strip_edges()
 	var password = join_password.text
-	var max_p = int(max_players.value)
-	
-	print("name: ", player_name, " room: ", room_name, " max: ", max_p)
 
 	if player_name == "" or room_name == "":
 		print("Player name and room name are required")
@@ -122,6 +119,6 @@ func _on_lobby_joined(lobby_id: int, _permissions: int, _locked: bool, response:
 
 		GameState.lobby_id = lobby_id
 		print("Joined lobby: ", lobby_id)
-		get_tree().change_scene_to_file("res://scenes/GameLobby.tscn")
+		get_tree().change_scene_to_file("res://scenes/Initialisation/GameLobby.tscn")
 	else:
 		print("Failed to join lobby, response: ", response)
