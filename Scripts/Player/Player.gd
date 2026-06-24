@@ -13,16 +13,8 @@ var fling_recovery_time: float = 0.6
 func _ready():
 	name_label.text = player_name
 
-func _physics_process(delta):
-	# Only process input for your own player
+func _physics_process(_delta):
 	if steam_id != Steam.getSteamID():
-		return
-	
-	if flung:
-		velocity = velocity.lerp(Vector2.ZERO, delta * 2.0)
-		move_and_slide()
-		if velocity.length() < 10.0:
-			flung = false
 		return
 	
 	var direction = Vector2.ZERO
@@ -37,11 +29,24 @@ func _physics_process(delta):
 	
 	velocity = direction.normalized() * speed
 	move_and_slide()
-	sync_position.rpc(position)
+	
+	if multiplayer.has_multiplayer_peer():
+		if multiplayer.is_server():
+			# Host broadcasts directly to all
+			sync_position.rpc(position, steam_id)
+		else:
+			# Client sends to host only
+			sync_position.rpc_id(1, position, steam_id)
 
 @rpc("any_peer", "call_remote", "unreliable")
-func sync_position(new_pos: Vector2):
-	position = new_pos
-
-func _get_local_steam_id() -> int:
-	return Steam.getSteamID()
+func sync_position(new_pos: Vector2, sender_steam_id: int):
+	if multiplayer.is_server():
+		# Host rebroadcasts to all clients
+		sync_position.rpc(new_pos, sender_steam_id)
+		return
+	# Client applies position to correct player
+	var players = get_tree().get_nodes_in_group("player")
+	for p in players:
+		if p.steam_id == sender_steam_id:
+			p.position = new_pos
+			break
