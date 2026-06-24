@@ -94,3 +94,11 @@ func _apply_pos(new_pos: Vector2, sender_steam_id: int):
 	var id_str = str(sender_steam_id)
 	if players_node.has_node(id_str):
 		players_node.get_node(id_str).position = new_pos
+
+
+func _on_start_game_btn_pressed() -> void:
+	if not multiplayer.is_server():
+		print("Only da host starts")
+		return
+		
+	## Start game logic here

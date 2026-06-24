@@ -76,7 +76,7 @@ position = Vector2(-134, 146)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=374795415]
 
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1331469580]
+[node name="StartContainer" type="HBoxContainer" parent="." unique_id=1331469580]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -88,7 +88,7 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Button" type="TextureButton" parent="HBoxContainer" unique_id=299955457]
+[node name="StartGameBtn" type="TextureButton" parent="StartContainer" unique_id=299955457]
 layout_mode = 2
 texture_normal = ExtResource("3_ar8rc")
 texture_hover = ExtResource("4_4gtyj")
@@ -127,3 +127,4 @@ shape = SubResource("RectangleShape2D_f8bvt")
 
 [connection signal="pressed" from="CanvasLayer/PausePanel/VBoxContainer/TextureButton" to="CanvasLayer" method="_on_resume_pressed"]
 [connection signal="pressed" from="CanvasLayer/PausePanel/VBoxContainer/TextureButton2" to="CanvasLayer" method="_on_quit_lobby_pressed"]
+[connection signal="pressed" from="StartContainer/StartGameBtn" to="." method="_on_start_game_btn_pressed"]
