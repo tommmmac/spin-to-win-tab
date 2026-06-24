@@ -3,13 +3,13 @@ extends Control
 @onready var main_panel = $MainMenuContainer
 @onready var create_panel = $CreateContainer
 @onready var join_panel = $JoinContainer
-@onready var create_player_name = $CreateContainer/PlayerNameInput
-@onready var create_room_name = $CreateContainer/RoomNameInput
-@onready var create_password = $CreateContainer/PasswordInput
+@onready var create_player_name = $CreateContainer/PlayerName/PlayerNameInput
+@onready var create_room_name = $CreateContainer/RoomName/RoomNameInput
+@onready var create_password = $CreateContainer/Password/PasswordInput
 @onready var max_players = $CreateContainer/MaxPlayerContainer/SpinBox
-@onready var join_player_name = $JoinContainer/PlayerNameInput
-@onready var join_room_name = $JoinContainer/RoomNameInput
-@onready var join_password = $JoinContainer/PasswordInput
+@onready var join_player_name = $JoinContainer/PlayerName/PlayerNameInput
+@onready var join_room_name = $JoinContainer/RoomName/RoomNameInput
+@onready var join_password = $JoinContainer/Password/PasswordInput
 
 func _ready():
 	var result = Steam.lobby_created.connect(_on_lobby_created)
