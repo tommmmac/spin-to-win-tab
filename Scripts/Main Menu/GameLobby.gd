@@ -8,12 +8,9 @@ const SPRITES = [
 	"res://Assets/Sprites/Player/PlayerBlue.png",
 	"res://Assets/Sprites/Player/PlayerGreen.png",
 	"res://Assets/Sprites/Player/PlayerYellow.png",
-	
-	
-	
-	
-	
-	
+	"res://Assets/Sprites/Player/PlayerOrange.png",
+	"res://Assets/Sprites/Player/PlayerRed.png",
+	"res://Assets/Sprites/Player/PlayerWhite.png",
 ]
 
 var used_sprites: Array = []
