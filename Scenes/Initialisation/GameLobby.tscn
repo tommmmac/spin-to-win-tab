@@ -2,13 +2,58 @@
 
 [ext_resource type="Script" uid="uid://ch3v82eqigbnh" path="res://Scripts/Main Menu/GameLobby.gd" id="1_f8bvt"]
 [ext_resource type="PackedScene" uid="uid://hi5bw5wjohqy" path="res://Scenes/Initialisation/LobbyTornado.tscn" id="2_spd85"]
+[ext_resource type="Texture2D" uid="uid://338jrm1no2pj" path="res://Assets/Sprites/Buttons/back_btn.png" id="3_1dps6"]
 [ext_resource type="Texture2D" uid="uid://c2m6rxbstfmr1" path="res://Assets/Sprites/StartBtn.png" id="3_ar8rc"]
 [ext_resource type="Texture2D" uid="uid://doru7qpdd8hn8" path="res://Assets/Sprites/StartBtnHover1.png" id="4_4gtyj"]
+[ext_resource type="Texture2D" uid="uid://c4j3vgiu3mk4" path="res://Assets/Sprites/Buttons/back_btn_hover.png" id="4_12yfy"]
+[ext_resource type="Script" uid="uid://dqkawynx28wk6" path="res://Scripts/Main Menu/PauseMenu.gd" id="5_ighxi"]
+[ext_resource type="Texture2D" uid="uid://60et7vgh5uj" path="res://Assets/Sprites/Buttons/quit_btn.png" id="5_lmoqn"]
+[ext_resource type="Texture2D" uid="uid://6dc0w4v322bt" path="res://Assets/Sprites/Buttons/quit_btn_hover.png" id="6_gcvnu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_f8bvt"]
 
 [node name="GameLobby" type="Node2D" unique_id=951234834]
 script = ExtResource("1_f8bvt")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=768657113]
+script = ExtResource("5_ighxi")
+
+[node name="PausePanel" type="ColorRect" parent="CanvasLayer" unique_id=113969441]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+color = Color(0, 0, 0, 0.023529412)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/PausePanel" unique_id=734242014]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -150.0
+offset_top = -102.0
+offset_right = 150.0
+offset_bottom = 102.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureButton" type="TextureButton" parent="CanvasLayer/PausePanel/VBoxContainer" unique_id=277304178]
+layout_mode = 2
+texture_normal = ExtResource("3_1dps6")
+texture_hover = ExtResource("4_12yfy")
+
+[node name="TextureButton2" type="TextureButton" parent="CanvasLayer/PausePanel/VBoxContainer" unique_id=1535747876]
+layout_mode = 2
+texture_normal = ExtResource("5_lmoqn")
+texture_hover = ExtResource("6_gcvnu")
 
 [node name="Tornados" type="Node2D" parent="." unique_id=607370315]
 
@@ -31,7 +76,7 @@ position = Vector2(-134, 146)
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=374795415]
 
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1331469580]
+[node name="StartContainer" type="HBoxContainer" parent="." unique_id=1331469580]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -43,7 +88,7 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
-[node name="Button" type="TextureButton" parent="HBoxContainer" unique_id=299955457]
+[node name="StartGameBtn" type="TextureButton" parent="StartContainer" unique_id=299955457]
 layout_mode = 2
 texture_normal = ExtResource("3_ar8rc")
 texture_hover = ExtResource("4_4gtyj")
@@ -79,3 +124,7 @@ disable_mode = 1
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RightBarrier" unique_id=219102111]
 scale = Vector2(1, 55)
 shape = SubResource("RectangleShape2D_f8bvt")
+
+[connection signal="pressed" from="CanvasLayer/PausePanel/VBoxContainer/TextureButton" to="CanvasLayer" method="_on_resume_pressed"]
+[connection signal="pressed" from="CanvasLayer/PausePanel/VBoxContainer/TextureButton2" to="CanvasLayer" method="_on_quit_lobby_pressed"]
+[connection signal="pressed" from="StartContainer/StartGameBtn" to="." method="_on_start_game_btn_pressed"]
