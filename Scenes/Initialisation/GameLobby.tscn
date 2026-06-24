@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://di1i3ow4y2ni1"]
 
 [ext_resource type="Script" uid="uid://ch3v82eqigbnh" path="res://Scripts/Main Menu/GameLobby.gd" id="1_f8bvt"]
-[ext_resource type="PackedScene" uid="uid://gd07t0oo6opa" path="res://Scenes/Initialisation/LobbyTornado.tscn" id="2_spd85"]
+[ext_resource type="PackedScene" path="res://Scenes/Initialisation/LobbyTornado.tscn" id="2_spd85"]
 [ext_resource type="Texture2D" uid="uid://c2m6rxbstfmr1" path="res://Assets/Sprites/StartBtn.png" id="3_ar8rc"]
 [ext_resource type="Texture2D" uid="uid://doru7qpdd8hn8" path="res://Assets/Sprites/StartBtnHover1.png" id="4_4gtyj"]
 
@@ -41,6 +41,7 @@ offset_right = 276.5
 offset_bottom = 445.0
 grow_horizontal = 2
 grow_vertical = 2
+alignment = 1
 
 [node name="Button" type="TextureButton" parent="HBoxContainer" unique_id=299955457]
 layout_mode = 2

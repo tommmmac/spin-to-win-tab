@@ -39,10 +39,8 @@ func _physics_process(delta):
 	move_and_slide()
 	sync_position.rpc(position)
 
-@rpc("any_peer", "unreliable")
+@rpc("any_peer", "call_remote", "unreliable")
 func sync_position(new_pos: Vector2):
-	if steam_id == Steam.getSteamID():
-		return  # ignore for own player
 	position = new_pos
 
 func _get_local_steam_id() -> int:

@@ -1,7 +1,7 @@
-[gd_scene format=3 uid="uid://gd07t0oo6opa"]
+[gd_scene format=3 uid="uid://hi5bw5wjohqy"]
 
 [ext_resource type="Texture2D" uid="uid://drk6u01xdav38" path="res://Assets/Sprites/Player/TornadoSprite.png" id="1_73bid"]
-[ext_resource type="Script" uid="uid://pq3cx364va3d" path="res://Scripts/Main Menu/LobbyTornado.gd" id="1_kbj2s"]
+[ext_resource type="Script" path="res://Scripts/Main Menu/LobbyTornado.gd" id="1_kbj2s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_73bid"]
 
