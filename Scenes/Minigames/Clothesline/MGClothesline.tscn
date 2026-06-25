@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://c6xgblvs1s12u"]
+
+[ext_resource type="PackedScene" uid="uid://c7upq82eyx3ub" path="res://Scenes/Minigames/Clothesline/SpriteScenes/clothesline_sprite.tscn" id="1_2f7dr"]
+[ext_resource type="Script" uid="uid://bfpt3xafv8von" path="res://Scripts/Minigames/Clothesline/ClothingSpawner.gd" id="1_8ptaa"]
+[ext_resource type="PackedScene" uid="uid://h6i81qr10c2a" path="res://Scenes/Minigames/Clothesline/SpriteScenes/pants_blue.tscn" id="2_diecx"]
+[ext_resource type="PackedScene" uid="uid://o64pnip2hn2m" path="res://Scenes/Minigames/Clothesline/SpriteScenes/shirt_blue.tscn" id="3_lfc1x"]
+[ext_resource type="Script" uid="uid://ivmbs2xi41d3" path="res://Scripts/Minigames/Clothesline/CLInputPrompt.gd" id="3_maimr"]
+[ext_resource type="PackedScene" uid="uid://snts4ys8mssb" path="res://Scenes/Minigames/Clothesline/SpriteScenes/shirt_orange.tscn" id="4_w4feb"]
+[ext_resource type="PackedScene" uid="uid://baatpx8sasp0n" path="res://Scenes/Minigames/Clothesline/SpriteScenes/shirt_red.tscn" id="5_poqba"]
+[ext_resource type="Texture2D" uid="uid://c7hgunm11h2qt" path="res://Assets/Sprites/MiniGames/Clothesline/PressA.png" id="6_poqba"]
+[ext_resource type="Texture2D" uid="uid://njwuk12bl4au" path="res://Assets/Sprites/MiniGames/Clothesline/PressD.png" id="7_3p3xi"]
+[ext_resource type="Texture2D" uid="uid://5g5yldg87xcb" path="res://Assets/Sprites/MiniGames/Clothesline/PressDown.png" id="8_wohpu"]
+[ext_resource type="Texture2D" uid="uid://84ygs7ha718w" path="res://Assets/Sprites/MiniGames/Clothesline/PressLeft.png" id="9_ubjmq"]
+[ext_resource type="Texture2D" uid="uid://xb02w3gmwmvh" path="res://Assets/Sprites/MiniGames/Clothesline/PressRight.png" id="10_emleu"]
+[ext_resource type="Texture2D" uid="uid://d0o1s5hyc18q5" path="res://Assets/Sprites/MiniGames/Clothesline/PressS.png" id="11_7jbb0"]
+[ext_resource type="Texture2D" uid="uid://cvcqnelwnmwy7" path="res://Assets/Sprites/MiniGames/Clothesline/PressUp.png" id="12_y1h12"]
+[ext_resource type="Texture2D" uid="uid://ct5s3ou0fhi0x" path="res://Assets/Sprites/MiniGames/Clothesline/PressW.png" id="13_vaqre"]
+[ext_resource type="Texture2D" uid="uid://lrobpbcde5ux" path="res://Assets/Sprites/MiniGames/Clothesline/PressAFail.png" id="14_7jbb0"]
+[ext_resource type="Texture2D" uid="uid://bk6a1dbl5ncr6" path="res://Assets/Sprites/MiniGames/Clothesline/PressDFail.png" id="15_y1h12"]
+[ext_resource type="Texture2D" uid="uid://c42c2jt0fura" path="res://Assets/Sprites/MiniGames/Clothesline/BasketSprite.png" id="16_diecx"]
+[ext_resource type="Texture2D" uid="uid://clfef0maibk7j" path="res://Assets/Sprites/MiniGames/Clothesline/PressDownFail.png" id="16_vaqre"]
+[ext_resource type="Texture2D" uid="uid://xpbpl5wv74mu" path="res://Assets/Sprites/MiniGames/Clothesline/PressLeftFail.png" id="17_qtnrn"]
+[ext_resource type="Texture2D" uid="uid://kr75is8wrki6" path="res://Assets/Sprites/MiniGames/Clothesline/PressRightFail.png" id="18_tei5u"]
+[ext_resource type="Texture2D" uid="uid://cvrmg6cojcjo8" path="res://Assets/Sprites/MiniGames/Clothesline/PressSFail.png" id="19_neay1"]
+[ext_resource type="Texture2D" uid="uid://wti1hmpsbgvh" path="res://Assets/Sprites/MiniGames/Clothesline/PressUpFail.png" id="20_d55bh"]
+[ext_resource type="Texture2D" uid="uid://drjxqor1o6v7j" path="res://Assets/Sprites/MiniGames/Clothesline/PressWFail.png" id="21_pkqnj"]
+
+[node name="MGClothesline" type="Node2D" unique_id=451643017 node_paths=PackedStringArray("basket", "clothesline")]
+script = ExtResource("1_8ptaa")
+clothing_scenes = Array[PackedScene]([ExtResource("2_diecx"), ExtResource("3_lfc1x"), ExtResource("4_w4feb"), ExtResource("5_poqba")])
+input_textures = Array[Texture2D]([ExtResource("13_vaqre"), ExtResource("6_poqba"), ExtResource("11_7jbb0"), ExtResource("7_3p3xi"), ExtResource("8_wohpu"), ExtResource("9_ubjmq"), ExtResource("10_emleu"), ExtResource("12_y1h12")])
+fail_textures = Array[Texture2D]([ExtResource("21_pkqnj"), ExtResource("14_7jbb0"), ExtResource("19_neay1"), ExtResource("15_y1h12"), ExtResource("16_vaqre"), ExtResource("17_qtnrn"), ExtResource("18_tei5u"), ExtResource("20_d55bh")])
+basket = NodePath("Basket")
+clothesline = NodePath("ClotheslineSprite")
+
+[node name="InputPrompt1" type="Sprite2D" parent="." unique_id=238913990]
+position = Vector2(225, 247)
+script = ExtResource("3_maimr")
+
+[node name="InputPrompt2" type="Sprite2D" parent="." unique_id=1534157184]
+position = Vector2(375, 253)
+script = ExtResource("3_maimr")
+
+[node name="ClotheslineSprite" parent="." unique_id=1467729192 instance=ExtResource("1_2f7dr")]
+position = Vector2(300, 200)
+
+[node name="Basket" type="Sprite2D" parent="." unique_id=1235304009]
+position = Vector2(300, 360)
+texture = ExtResource("16_diecx")
+
+[node name="ScoreLabel" type="Label" parent="." unique_id=2074985373]
+offset_left = 119.0
+offset_top = 193.0
+offset_right = 159.0
+offset_bottom = 216.0

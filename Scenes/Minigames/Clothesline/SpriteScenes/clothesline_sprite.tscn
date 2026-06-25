@@ -1,0 +1,47 @@
+[gd_scene format=3 uid="uid://c7upq82eyx3ub"]
+
+[ext_resource type="Texture2D" uid="uid://c4urwou7315h1" path="res://Assets/Sprites/MiniGames/Clothesline/Clothesline-Sheet.png" id="1_ij5e4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4bgfc"]
+atlas = ExtResource("1_ij5e4")
+region = Rect2(600, 0, 300, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0lgow"]
+atlas = ExtResource("1_ij5e4")
+region = Rect2(900, 0, 300, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_11lwu"]
+atlas = ExtResource("1_ij5e4")
+region = Rect2(0, 0, 300, 300)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_17txu"]
+atlas = ExtResource("1_ij5e4")
+region = Rect2(300, 0, 300, 300)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3qvlw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4bgfc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0lgow")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_11lwu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_17txu")
+}],
+"loop": true,
+"name": &"Spin",
+"speed": 5.0
+}]
+
+[node name="ClotheslineSprite" type="Node2D" unique_id=1467729192]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1075681179]
+sprite_frames = SubResource("SpriteFrames_3qvlw")
+animation = &"Spin"
+autoplay = "Spin"
+speed_scale = 0.5
