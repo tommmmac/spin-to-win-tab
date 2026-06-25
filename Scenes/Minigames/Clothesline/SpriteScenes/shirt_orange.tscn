@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://snts4ys8mssb"]
+
+[ext_resource type="Texture2D" uid="uid://t000n74hseus" path="res://Assets/Sprites/MiniGames/Clothesline/ShirtOrange.png" id="1_bu3m5"]
+[ext_resource type="Script" uid="uid://chb0ytu65fpwx" path="res://Scripts/Minigames/Clothesline/ClothingItem.gd" id="1_sg1ln"]
+
+[node name="ShirtOrange" type="Node2D" unique_id=1254851608]
+script = ExtResource("1_sg1ln")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=878224466]
+texture = ExtResource("1_bu3m5")

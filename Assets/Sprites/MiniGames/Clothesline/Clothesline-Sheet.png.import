@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://da8n5ihlnhiwg"
-path="res://.godot/imported/StartBtnHover2.png-271d71de5d08b6ceed0229f02d9f5953.ctex"
+uid="uid://c4urwou7315h1"
+path="res://.godot/imported/Clothesline-Sheet.png-775d5baf392f17a90dd16451810e8f4d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/StartBtnHover2.png"
-dest_files=["res://.godot/imported/StartBtnHover2.png-271d71de5d08b6ceed0229f02d9f5953.ctex"]
+source_file="res://Assets/Sprites/MiniGames/Clothesline/Clothesline-Sheet.png"
+dest_files=["res://.godot/imported/Clothesline-Sheet.png-775d5baf392f17a90dd16451810e8f4d.ctex"]
 
 [params]
 
