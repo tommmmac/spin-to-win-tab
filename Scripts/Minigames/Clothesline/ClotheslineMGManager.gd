@@ -54,18 +54,22 @@ func on_segment_finished() -> void:
 		end_minigame()
 
 func end_minigame() -> void:
+	print("is server: ", multiplayer.is_server())
+	print("segment_assignments: ", segment_assignments)
+	print("GameState.players before: ", GameState.players)
+	
 	if not multiplayer.is_server():
 		return
 	
 	var results = []
 	for steam_id in segment_assignments:
 		var seg_idx = segment_assignments[steam_id]
-		results.append({"steam_id": steam_id, "points": segments[seg_idx].get_points()})
+		var points = segments[seg_idx].get_points()
+		print("steam_id: ", steam_id, " seg_idx: ", seg_idx, " points: ", points)
+		results.append({"steam_id": steam_id, "points": points})
 	
 	results.sort_custom(func(a, b): return a["points"] < b["points"])
+	print("results sorted: ", results)
+	print("lose_count: ", results.size() / 2)
 	
-	var lose_count = results.size() / 2
-	for i in range(lose_count):
-		MinigameManager.eliminate_player(results[i]["steam_id"])
-	
-	GameState.sync_and_finish()  # one line, works for every minigame
+	GameState.sync_and_finish()

@@ -88,6 +88,12 @@ func spawn_player(steam_id: int, p_name: String, sprite_idx: int = 0):
 	var id_str = str(steam_id)
 	if players_node.has_node(id_str):
 		return
+	
+	# check GameState too
+	for p in GameState.players:
+		if p["steam_id"] == steam_id:
+			return  # already registered
+	
 	var player = player_scene.instantiate()
 	player.name = id_str
 	player.steam_id = steam_id

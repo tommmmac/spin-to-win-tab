@@ -26,6 +26,8 @@ var current_minigame_index: int = 0
 
 var next_scene: String = ""
 
+signal players_synced
+
 func get_next_minigame() -> String:
 	var mg = minigames[current_minigame_index % minigames.size()]
 	current_minigame_index += 1
@@ -48,10 +50,9 @@ func get_winner() -> Dictionary:
 
 func start_game() -> void:
 	current_minigame_index = 0
-	
 	minigames.shuffle()
-	
-	SceneManager.transition_to_scene(get_next_minigame())
+	var players_json = JSON.stringify(players)
+	_init_players.rpc(players_json, get_next_minigame())
 
 func sync_and_finish() -> void:
 	if not multiplayer.is_server():
@@ -62,7 +63,14 @@ func sync_and_finish() -> void:
 @rpc("authority", "call_local", "reliable")
 func _sync_players(players_json: String) -> void:
 	players = JSON.parse_string(players_json)
+	emit_signal("players_synced")
 	MinigameManager.end_minigame()
+	
+@rpc("authority", "call_local", "reliable")
+func _init_players(players_json: String, first_minigame: String) -> void:
+	players = JSON.parse_string(players_json)
+	print("Players synced: ", players)
+	SceneManager.transition_to_scene(first_minigame)
 
 func get_unique_sprite_index() -> int:
 	var available = []
