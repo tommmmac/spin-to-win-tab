@@ -30,16 +30,39 @@ var score: int = 0
 var time_left: float = 30.0
 var can_input: bool = true
 var game_active: bool = true
+var input_window: float = 0.8
+const INPUT_WINDOW_REDUCTION: float = 0.01
+var input_timer: float = 0.0
+var waiting_for_input: bool = false
 
 func _ready() -> void:
 	game_timer.wait_time = 1.0
 	game_timer.autostart = true
 	game_timer.timeout.connect(_on_second_tick)
+	waiting_for_input = true
+	input_timer = input_window
 	_update_key_sprite()
 	_update_ui()
 
 func _process(delta: float) -> void:
-	pass  # timer runs via GameTimer signal
+	if not game_active or not can_input or not waiting_for_input:
+		return
+
+	input_timer -= delta
+	if input_timer <= 0.0:
+		_on_input_timeout()
+		
+func _on_input_timeout() -> void:
+	waiting_for_input = false
+	can_input = false
+	current_step = 0
+	key_sprite.texture = KEY_TEXTURES_FAIL[SEQUENCE[current_step]]
+	_shake_sprite()
+	await get_tree().create_timer(0.3).timeout
+	can_input = true
+	waiting_for_input = true
+	input_timer = input_window
+	_update_key_sprite()
 
 func _input(event: InputEvent) -> void:
 	if not game_active or not can_input:
@@ -65,30 +88,35 @@ func _input(event: InputEvent) -> void:
 
 func _on_correct_input() -> void:
 	can_input = false
+	waiting_for_input = false
 	current_step += 1
 
 	if current_step >= SEQUENCE.size():
 		score += 1
 		current_step = 0
 		score_label.text = "Score: %d" % score
+		input_window = max(0.1, input_window - INPUT_WINDOW_REDUCTION)
 
-	# Hide the key sprite during the gap
 	key_sprite.visible = false
 
 	await get_tree().create_timer(0.1).timeout
 
-	# Now reveal everything for the new step
 	key_sprite.visible = true
 	can_input = true
+	waiting_for_input = true
+	input_timer = input_window
 	_update_key_sprite()
 
 func _on_wrong_input() -> void:
 	can_input = false
+	waiting_for_input = false
 	key_sprite.texture = KEY_TEXTURES_FAIL[SEQUENCE[current_step]]
 	_shake_sprite()
 	await get_tree().create_timer(0.3).timeout
 	can_input = true
-	_update_key_sprite()  # restore normal sprite
+	waiting_for_input = true
+	input_timer = input_window
+	_update_key_sprite()
 
 func _shake_sprite() -> void:
 	var original_pos = key_sprite.position
