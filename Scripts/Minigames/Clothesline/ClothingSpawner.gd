@@ -44,7 +44,7 @@ func spawn_round():
 
 	var random_scene = clothing_scenes.pick_random()
 	current_clothing = random_scene.instantiate()
-	current_clothing.position = clothesline.global_position
+	current_clothing.position = clothesline.position
 	add_child(current_clothing)
 
 	var indices = range(input_textures.size())
