@@ -126,7 +126,6 @@ func _on_start_game_btn_pressed() -> void:
 	start_game.rpc()
 	## Start game logic here
 	
-	
 @rpc("authority", "call_local")
 func start_game():
-	get_tree().change_scene_to_file("res://Scenes/Initialisation/Leaderboard.tscn")
+	SceneManager.transition_to_scene("Clothesline")
