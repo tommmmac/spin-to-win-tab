@@ -53,7 +53,16 @@ func start_game() -> void:
 	
 	SceneManager.transition_to_scene(get_next_minigame())
 
+func sync_and_finish() -> void:
+	if not multiplayer.is_server():
+		return
+	var players_json = JSON.stringify(players)
+	_sync_players.rpc(players_json)
 
+@rpc("authority", "call_local", "reliable")
+func _sync_players(players_json: String) -> void:
+	players = JSON.parse_string(players_json)
+	MinigameManager.end_minigame()
 
 func get_unique_sprite_index() -> int:
 	var available = []
