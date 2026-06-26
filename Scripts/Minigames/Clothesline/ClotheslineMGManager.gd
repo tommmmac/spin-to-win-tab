@@ -6,6 +6,8 @@ var segment_assignments: Dictionary = {}
 var received_scores: Dictionary = {}
 
 func _ready():
+	for i in range(segments.size()):
+		print("segments[", i, "] = ", segments[i].name, " at position ", segments[i].position)
 	for segment in segments:
 		segment.deactivate()
 	assign_segments()
@@ -21,13 +23,19 @@ func assign_segments():
 		var steam_id = Steam.getLobbyMemberByIndex(lobby_id, i)
 		players.append(steam_id)
 	players.sort()
+	print("Sorted players: ", players)
+	print("Local Steam ID: ", Steam.getSteamID())
 	
 	for i in range(min(players.size(), segments.size())):
 		var steam_id = players[i]
+		
+		print("Assigning steam_id ", steam_id, " to segment ", i)
 		segment_assignments[steam_id] = i
 		if steam_id == Steam.getSteamID():
+			print("Activating segment ", i, " for local player")
 			segments[i].activate()
-
+	
+	
 func _spawn_local_player(segment: Node):
 	var local_steam_id = Steam.getSteamID()
 	var sprite_idx = 0
