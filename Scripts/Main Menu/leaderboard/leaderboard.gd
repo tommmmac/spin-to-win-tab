@@ -14,7 +14,7 @@ func _on_players_synced():
 	# clear and repopulate with updated hearts
 	for child in $NinePatchRect/MarginContainer/VBoxContainer.get_children():
 		child.queue_free()
-	populate(GameState.players)SceneManager.transition_to_scene(GameState.next_scene)
+	populate(GameState.players)
 
 func populate(players: Array):
 	for p in players:
