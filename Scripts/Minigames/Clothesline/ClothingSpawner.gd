@@ -32,6 +32,8 @@ func _ready():
 	spawn_round()
 
 func spawn_round():
+	if not is_active:
+		return
 	print("My segment index: ", get_parent().get_index())
 	print("My position: ", position)
 	print("Clothesline local pos: ", clothesline.position)
