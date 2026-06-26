@@ -128,4 +128,4 @@ func _on_start_game_btn_pressed() -> void:
 	
 @rpc("authority", "call_local")
 func start_game():
-	SceneManager.transition_to_scene("Clothesline")
+	GameState.start_game()

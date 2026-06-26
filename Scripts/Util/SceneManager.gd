@@ -15,6 +15,14 @@ func transition_to_scene(level: String) -> void:
 	if scene_path == null:
 		return
 	_do_scene_change.rpc(scene_path)
+	
+	
+func transition_after_minigame() -> void:
+	if GameState.is_game_over():
+		GameState.next_scene = "GameOver"
+	else:
+		GameState.next_scene = GameState.get_next_minigame()
+	transition_to_scene("Leaderboard")
 
 @rpc("authority", "call_local", "reliable")
 func _do_scene_change(scene_path: String) -> void:

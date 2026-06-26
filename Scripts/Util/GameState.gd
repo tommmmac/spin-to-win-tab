@@ -27,8 +27,9 @@ var current_minigame_index: int = 0
 var next_scene: String = ""
 
 func get_next_minigame() -> String:
-	current_minigame_index = randi() % minigames.size()  # random
-	return minigames[current_minigame_index]
+	var mg = minigames[current_minigame_index % minigames.size()]
+	current_minigame_index += 1
+	return mg
 
 func eliminate_player(steam_id: int):
 	for p in players:
@@ -45,7 +46,12 @@ func get_winner() -> Dictionary:
 
 
 
-
+func start_game() -> void:
+	current_minigame_index = 0
+	
+	minigames.shuffle()
+	
+	SceneManager.transition_to_scene(get_next_minigame())
 
 
 
