@@ -18,9 +18,12 @@ func assign_segments():
 	var lobby_id = GameState.lobby_id
 	var member_count = Steam.getNumLobbyMembers(lobby_id)
 	
+	print("Local Steam ID: ", Steam.getSteamID())
+	
 	var players = []
 	for i in range(member_count):
 		var steam_id = Steam.getLobbyMemberByIndex(lobby_id, i)
+		print("Lobby member: ", steam_id, " | matches local: ", steam_id == Steam.getSteamID())
 		players.append(steam_id)
 	players.sort()
 	print("Sorted players: ", players)
