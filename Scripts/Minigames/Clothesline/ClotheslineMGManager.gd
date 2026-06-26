@@ -16,14 +16,26 @@ func _ready():
 
  
 func assign_segments():
+	if not multiplayer.is_server():
+		return
+	
 	var lobby_id = GameState.lobby_id
 	var member_count = Steam.getNumLobbyMembers(lobby_id)
 	
+	var assignments = {}
 	for i in range(min(member_count, segments.size())):
 		var steam_id = Steam.getLobbyMemberByIndex(lobby_id, i)
-		segment_assignments[steam_id] = i
-		if steam_id == Steam.getSteamID():
-			segments[i].activate()
+		assignments[steam_id] = i
+	
+	_sync_assignments.rpc(assignments)
+
+@rpc("authority", "call_local", "reliable")
+func _sync_assignments(assignments: Dictionary) -> void:
+	segment_assignments = assignments
+	var local_id = Steam.getSteamID()
+	if segment_assignments.has(local_id):
+		var idx = segment_assignments[local_id]
+		segments[idx].activate()
 	
 	
 func _spawn_local_player(segment: Node):
