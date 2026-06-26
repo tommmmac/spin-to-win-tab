@@ -60,6 +60,8 @@ func _sync_players(synced_players: Array) -> void:
 	MinigameManager.end_minigame()
 
 func start_game() -> void:
+	if not multiplayer.is_server():
+		return
 	current_minigame_index = 0
 	minigames.shuffle()
 	_init_players.rpc(players, get_next_minigame())

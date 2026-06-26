@@ -134,4 +134,5 @@ func _on_start_game_btn_pressed() -> void:
 	
 @rpc("authority", "call_local")
 func start_game():
-	GameState.start_game()
+	if multiplayer.is_server():
+		GameState.start_game()
