@@ -48,27 +48,25 @@ func get_winner() -> Dictionary:
 
 
 
-func start_game() -> void:
-	current_minigame_index = 0
-	minigames.shuffle()
-	var players_json = JSON.stringify(players)
-	_init_players.rpc(players_json, get_next_minigame())
-
 func sync_and_finish() -> void:
 	if not multiplayer.is_server():
 		return
-	var players_json = JSON.stringify(players)
-	_sync_players.rpc(players_json)
+	_sync_players.rpc(players)
 
 @rpc("authority", "call_local", "reliable")
-func _sync_players(players_json: String) -> void:
-	players = JSON.parse_string(players_json)
+func _sync_players(synced_players: Array) -> void:
+	players = synced_players
 	emit_signal("players_synced")
 	MinigameManager.end_minigame()
-	
+
+func start_game() -> void:
+	current_minigame_index = 0
+	minigames.shuffle()
+	_init_players.rpc(players, get_next_minigame())
+
 @rpc("authority", "call_local", "reliable")
-func _init_players(players_json: String, first_minigame: String) -> void:
-	players = JSON.parse_string(players_json)
+func _init_players(synced_players: Array, first_minigame: String) -> void:
+	players = synced_players
 	print("Players synced: ", players)
 	SceneManager.transition_to_scene(first_minigame)
 
