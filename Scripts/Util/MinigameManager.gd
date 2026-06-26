@@ -1,11 +1,11 @@
 extends Node
 
 
-var minigame_timer: float = 60.0
+var minigame_timer: float = 30.0
 var _timer: SceneTreeTimer = null
+signal minigame_ended
 
-
-func start_minigame(duration: float = 60) -> void:
+func start_minigame(duration: float = 30) -> void:
 	
 	minigame_timer = duration
 	_timer = get_tree().create_timer(duration)

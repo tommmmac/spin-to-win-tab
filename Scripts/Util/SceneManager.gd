@@ -11,11 +11,12 @@ var scenes : Dictionary = { "MainMenu": "res://Scenes/Initialisation/MainMenu.ts
 
 
 func transition_to_scene(level: String) -> void:
-	var scene_path: String = scenes.get(level)
+	print("transitioning to: ", level)
+	var scene_path = scenes.get(level)
+	print("scene path: ", scene_path)
 	if scene_path == null:
 		return
 	_do_scene_change.rpc(scene_path)
-	
 	
 func transition_after_minigame() -> void:
 	if GameState.is_game_over():
