@@ -19,6 +19,7 @@ var score: int = 0
 var prompts_completed: int = 0
 var round_active: bool = false
 var current_clothing: Node2D
+var is_active: bool = false
 var round_timer: float = 0.0
 var max_round_time: float = 60.0
 var all_actions: Array = ["input_w", "input_a", "input_s", "input_d", "input_down", 
@@ -79,7 +80,7 @@ func fail_round():
 	spawn_round()
 
 func _process(delta):
-	if not round_active:
+	if not is_processing():
 		return
 
 	round_timer += delta
@@ -112,14 +113,18 @@ func end_game():
 	get_parent().on_segment_finished()
 	
 func activate():
+	is_active = true
 	set_process(true)
-	set_physics_process(true)
+	prompt1.set_process(true)
+	prompt2.set_process(true)
 	spawn_round()
 
 func deactivate():
+	is_active = false
 	set_process(false)
-	set_physics_process(false)
-	if is_instance_valid(current_clothing):
-		current_clothing.queue_free()
+	prompt1.set_process(false)
+	prompt2.set_process(false)
 	prompt1.visible = false
 	prompt2.visible = false
+	if is_instance_valid(current_clothing):
+		current_clothing.queue_free()

@@ -4,8 +4,9 @@
 [ext_resource type="Script" uid="uid://c7ta08cr85hpj" path="res://Scripts/Minigames/Clothesline/ClotheslineMGManager.gd" id="1_uwbli"]
 [ext_resource type="Script" uid="uid://b31ysyl14v8fw" path="res://Scripts/Minigames/Clothesline/SegmentDividers.gd" id="3_w1yar"]
 
-[node name="Minigame - Clothesline" type="Node2D" unique_id=144393695]
+[node name="Minigame - Clothesline" type="Node2D" unique_id=144393695 node_paths=PackedStringArray("segments")]
 script = ExtResource("1_uwbli")
+segments = [NodePath("Segment1"), NodePath("Segment2"), NodePath("Segment3"), NodePath("Segment4"), NodePath("Segment5"), NodePath("Segment6")]
 
 [node name="Segment1" parent="." unique_id=451643017 instance=ExtResource("1_gm381")]
 

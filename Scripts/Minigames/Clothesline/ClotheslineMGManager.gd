@@ -24,7 +24,6 @@ func assign_segments():
 		var steam_id = Steam.getLobbyMemberByIndex(lobby_id, i)
 		players.append(steam_id)
 	
-	# Sort so all clients assign in same order
 	players.sort()
 	
 	for i in range(min(players.size(), segments.size())):
@@ -32,6 +31,22 @@ func assign_segments():
 		segment_assignments[steam_id] = i
 		if steam_id == Steam.getSteamID():
 			segments[i].activate()
+			_spawn_local_player(segments[i])
+
+func _spawn_local_player(segment: Node):
+	var local_steam_id = Steam.getSteamID()
+	
+	# Find player sprite index from GameState
+	var sprite_idx = 0
+	for p in GameState.players:
+		if p["steam_id"] == local_steam_id:
+			sprite_idx = p["sprite_idx"]
+			break
+	
+	var sprite = Sprite2D.new()
+	sprite.texture = load(GameState.SPRITES[sprite_idx])
+	sprite.position = segment.position + Vector2(600, 500)
+	add_child(sprite)
 
 func on_segment_finished() -> void:
 	segments_finished += 1

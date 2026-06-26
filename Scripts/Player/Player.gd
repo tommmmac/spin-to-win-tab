@@ -68,22 +68,20 @@ func _process_remote_player(delta):
 func _send_position(delta):
 	if not multiplayer.has_multiplayer_peer():
 		return
-
 	send_timer -= delta
 	if send_timer > 0.0:
 		return
-
 	send_timer = send_rate
-
 	if global_position.distance_to(last_sent_pos) < 2.0:
 		return
-
 	last_sent_pos = global_position
-
+	
+	# Find the node that has broadcast_pos/relay_pos regardless of current scene
 	var lobby = get_tree().current_scene
+	if not lobby.has_method("broadcast_pos"):
+		return  # silently skip if current scene doesn't support position sync
 	
 	if multiplayer.is_server():
-		
 		lobby.broadcast_pos.rpc(global_position, steam_id)
 	else:
 		lobby.relay_pos.rpc_id(1, global_position, steam_id)
