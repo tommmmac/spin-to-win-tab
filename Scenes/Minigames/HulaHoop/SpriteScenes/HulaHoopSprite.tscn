@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://wtusw3pmxljt"]
+
+[ext_resource type="Texture2D" uid="uid://t1nytu0g1bnu" path="res://Assets/Sprites/MiniGames/HulaHoop/HulaHoop-Sheet.png" id="1_n7to0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y1blf"]
+atlas = ExtResource("1_n7to0")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n4rnd"]
+atlas = ExtResource("1_n7to0")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jvh6v"]
+atlas = ExtResource("1_n7to0")
+region = Rect2(200, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_epbi0"]
+atlas = ExtResource("1_n7to0")
+region = Rect2(300, 0, 100, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kayoe"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y1blf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n4rnd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jvh6v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_epbi0")
+}],
+"loop": true,
+"name": &"spin",
+"speed": 5.0
+}]
+
+[node name="HulaHoopSprite" type="AnimatedSprite2D" unique_id=956614942]
+sprite_frames = SubResource("SpriteFrames_kayoe")
+animation = &"spin"
+autoplay = "spin"
+frame_progress = 0.3479403
