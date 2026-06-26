@@ -100,12 +100,16 @@ func _process(delta):
 				prompt2.fail()
 				break
 		
+func get_points() -> int:
+	return score
+
+
 func end_game():
 	round_active = false
 	if current_clothing:
 		current_clothing.queue_free()
-	print("Game Over! Final Score: ", score)
-	# trigger your game over screen here
+	# tell the clothesline manager we're done
+	get_parent().on_segment_finished()
 	
 func activate():
 	set_process(true)

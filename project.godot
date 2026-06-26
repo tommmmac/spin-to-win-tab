@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 SteamManager="*uid://bwlpfalymbk0f"
 SceneManager="*uid://bkf6vbeyuybxc"
 GameState="*uid://bmyj6osyqihy4"
+MinigameManager="*uid://rdtw5jy7uc07"
 
 [display]
 
