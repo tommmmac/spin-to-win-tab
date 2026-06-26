@@ -5,6 +5,7 @@ extends Node2D
 @onready var timer_label: Label = $TimerLabel
 @onready var score_label: Label = $ScoreLabel
 @onready var game_timer: Timer = $GameTimer
+@onready var hula_hoop: AnimatedSprite2D = $HulaHoopSprite
 
 # --- Key sequence & textures ---
 const SEQUENCE = ["s", "d", "w", "a"]
@@ -63,12 +64,22 @@ func _input(event: InputEvent) -> void:
 		_on_wrong_input()
 
 func _on_correct_input() -> void:
+	can_input = false
 	current_step += 1
+
 	if current_step >= SEQUENCE.size():
-		# Completed full sequence
 		score += 1
 		current_step = 0
 		score_label.text = "Score: %d" % score
+
+	# Hide the key sprite during the gap
+	key_sprite.visible = false
+
+	await get_tree().create_timer(0.1).timeout
+
+	# Now reveal everything for the new step
+	key_sprite.visible = true
+	can_input = true
 	_update_key_sprite()
 
 func _on_wrong_input() -> void:
@@ -90,6 +101,7 @@ func _shake_sprite() -> void:
 
 func _update_key_sprite() -> void:
 	key_sprite.texture = KEY_TEXTURES[SEQUENCE[current_step]]
+	hula_hoop.frame = current_step
 
 func _on_second_tick() -> void:
 	time_left -= 1

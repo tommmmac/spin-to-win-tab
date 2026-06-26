@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 SteamManager="*uid://bwlpfalymbk0f"
 GameState="*uid://bmyj6osyqihy4"
+SceneManager="*uid://bkf6vbeyuybxc"
 
 [display]
 
