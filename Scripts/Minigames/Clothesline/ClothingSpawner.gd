@@ -65,7 +65,7 @@ func success_round():
 	if is_instance_valid(current_clothing):
 		var clothing = current_clothing as ClothingItem
 		if clothing:
-			clothing.fall_to(basket.global_position)
+			clothing.fall_to(basket.position)
 	prompt1.visible = false
 	prompt2.visible = false
 	score += 1
