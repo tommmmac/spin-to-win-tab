@@ -14,28 +14,15 @@ func _ready():
 	MinigameManager.start_minigame(30.0)
 	MinigameManager.minigame_ended.connect(_on_time_up)
 
+ 
 func assign_segments():
 	var lobby_id = GameState.lobby_id
 	var member_count = Steam.getNumLobbyMembers(lobby_id)
 	
-	print("Local Steam ID: ", Steam.getSteamID())
-	
-	var players = []
-	for i in range(member_count):
+	for i in range(min(member_count, segments.size())):
 		var steam_id = Steam.getLobbyMemberByIndex(lobby_id, i)
-		print("Lobby member: ", steam_id, " | matches local: ", steam_id == Steam.getSteamID())
-		players.append(steam_id)
-	players.sort()
-	print("Sorted players: ", players)
-	print("Local Steam ID: ", Steam.getSteamID())
-	
-	for i in range(min(players.size(), segments.size())):
-		var steam_id = players[i]
-		
-		print("Assigning steam_id ", steam_id, " to segment ", i)
 		segment_assignments[steam_id] = i
 		if steam_id == Steam.getSteamID():
-			print("Activating segment ", i, " for local player")
 			segments[i].activate()
 	
 	
