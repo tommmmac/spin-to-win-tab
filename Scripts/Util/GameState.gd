@@ -21,6 +21,40 @@ var players: Array = []
 # each entry is a dict like:
 # { "steam_id": 123, "player_name": "Tom", "sprite_idx": 2, "hearts": 3 }
 
+var minigames: Array = ["Clothesline"]  # add names from dictionary when complete
+var current_minigame_index: int = 0
+
+var next_scene: String = ""
+
+func get_next_minigame() -> String:
+	var mg = minigames[current_minigame_index % minigames.size()]
+	current_minigame_index += 1
+	return mg
+
+func eliminate_player(steam_id: int):
+	for p in players:
+		if p["steam_id"] == steam_id:
+			p["hearts"] -= 1
+
+func is_game_over() -> bool:
+	var alive = players.filter(func(p): return p["hearts"] > 0)
+	return alive.size() <= 1
+
+func get_winner() -> Dictionary:
+	var alive = players.filter(func(p): return p["hearts"] > 0)
+	return alive[0] if alive.size() == 1 else {}
+
+
+
+func start_game() -> void:
+	current_minigame_index = 0
+	
+	minigames.shuffle()
+	
+	SceneManager.transition_to_scene(get_next_minigame())
+
+
+
 func get_unique_sprite_index() -> int:
 	var available = []
 	for i in range(sprite_count):

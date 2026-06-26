@@ -6,7 +6,9 @@ var entry_scene = preload("res://Scenes/Initialisation/PlayerEntry.tscn")
 func _ready():
 	populate(GameState.players)
 
-
+	if multiplayer.is_server():
+		await get_tree().create_timer(3.0).timeout
+		SceneManager.transition_to_scene(GameState.next_scene)
 
 func populate(players: Array):
 	for p in players:
