@@ -17,7 +17,7 @@ var total_claimed: int = 0
 var my_score: int = 0
 
 const MIN_SPIN := 3.0
-const MAX_SPIN := 20.0
+const MAX_SPIN := 10.0
 const COIN_COUNT := 8
 
 func _ready() -> void:
@@ -97,7 +97,7 @@ func _start_spin() -> void:
 	spin_start_time = Time.get_ticks_msec() / 1000.0
 	if multiplayer.is_server():
 		print("calling start_minigame")
-		MinigameManager.start_minigame(25.0)
+		MinigameManager.start_minigame(15.0)
 		
 	for i in range(COIN_COUNT):
 		if coin_owners.has(i):
