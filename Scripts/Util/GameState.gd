@@ -37,6 +37,10 @@ func eliminate_player(steam_id: int):
 	for p in players:
 		if p["steam_id"] == steam_id:
 			p["hearts"] -= 1
+			break
+	if multiplayer.is_server():
+		var hearts_data = players.map(func(p): return {"steam_id": p["steam_id"], "hearts": p["hearts"]})
+		_sync_hearts.rpc(hearts_data)
 
 func is_game_over() -> bool:
 	var alive = players.filter(func(p): return p["hearts"] > 0)
@@ -52,6 +56,16 @@ func sync_and_finish() -> void:
 	if not multiplayer.is_server():
 		return
 	_sync_players.rpc(players)
+
+@rpc("authority", "call_local", "reliable")
+func _sync_hearts(hearts_data: Array) -> void:
+	for entry in hearts_data:
+		for p in players:
+			if p["steam_id"] == entry["steam_id"]:
+				p["hearts"] = entry["hearts"]
+	emit_signal("players_synced")
+
+
 
 @rpc("authority", "call_local", "reliable")
 func _sync_players(synced_players: Array) -> void:
