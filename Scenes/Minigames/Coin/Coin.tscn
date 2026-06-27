@@ -1,5 +1,6 @@
 [gd_scene format=3 uid="uid://doog4by8jf3nu"]
 
+[ext_resource type="Script" uid="uid://dosceqrdc62l" path="res://Scripts/Minigames/CoinSpin/Coin.gd" id="1_8p0rr"]
 [ext_resource type="Texture2D" uid="uid://d1yce2ks0pxu1" path="res://Assets/Sprites/MiniGames/Coin/KangarooCoin.png" id="1_u0svt"]
 [ext_resource type="Texture2D" uid="uid://cspix5sqey3x" path="res://Assets/Sprites/MiniGames/Coin/KangarooCoin-Sheet.png" id="2_8p0rr"]
 
@@ -77,17 +78,26 @@ animations = [{
 "texture": SubResource("AtlasTexture_0qvcs")
 }],
 "loop": true,
-"name": &"default",
+"name": &"spin",
 "speed": 24.0
 }]
 
 [node name="Coin" type="Node2D" unique_id=615440636]
+script = ExtResource("1_8p0rr")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=912309213]
 texture_filter = 3
 texture = ExtResource("1_u0svt")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1262387501]
+[node name="NameLabel" type="Label" parent="." unique_id=895829219]
+offset_left = -62.0
+offset_top = -58.0
+offset_right = -22.0
+offset_bottom = -35.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=364951146]
 texture_filter = 3
 sprite_frames = SubResource("SpriteFrames_4gytk")
-frame_progress = 0.5485075
+animation = &"spin"
+
+[node name="ClickArea" type="Area2D" parent="." unique_id=1979046627]

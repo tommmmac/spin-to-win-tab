@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://6s0rlh7b3xol"]
+
+[ext_resource type="Script" uid="uid://cae0myps4noi" path="res://Scripts/Minigames/CoinSpin/CoinSpinManager.gd" id="1_0n1fx"]
+
+[node name="minigame__coin" type="Node2D" unique_id=1582026689]
+script = ExtResource("1_0n1fx")
+
+[node name="CoinContainer" type="Node2D" parent="." unique_id=596610289]
+
+[node name="Label" type="Label" parent="." unique_id=900056271]
+offset_left = 850.0
+offset_top = 78.0
+offset_right = 1232.0
+offset_bottom = 147.0
+theme_override_font_sizes/font_size = 50
+text = "Select your coin"

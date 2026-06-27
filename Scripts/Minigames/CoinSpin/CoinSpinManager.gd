@@ -1,71 +1,85 @@
-extends Node
+extends Node2D
 
+var coin_scene = preload("res://Scenes/Minigames/Coin/Coin.tscn")
 
+@onready var coins_container: Node = $CoinContainer
 
-@export var coin_slots: Array[Node] = []   # drag 8 CoinSlot nodes in editor
-### Variables
-var coin_timers: Array[float] = []
-
-var coin_owners: Dictionary = {} # coin indx and steam id
+var coin_timers: Array = []
+var coin_owners: Dictionary = {}   # coin_idx -> steam_id
+var coins: Array = []              # instantiated Coin nodes
 var my_coin: int = -1
 var spin_start_time: float = 0.0
 var game_started: bool = false
-
 var local_steam_id: int = 0
+var score_submitted: bool = false
 
-### Our time values for min and max spin
 const MIN_SPIN := 3.0
 const MAX_SPIN := 20.0
+const COIN_COUNT := 8
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	local_steam_id = Steam.getSteamID()
-	MinigameManager.minigame_ended.connect(_on_time_up)   # fallback if needed
- 
+	MinigameManager.minigame_ended.connect(_on_time_up)
+	_spawn_coins()
 	if multiplayer.is_server():
-		# generate a random timer for each of the 8 coins
 		var timers: Array = []
-		for i in range(8):
+		for i in range(COIN_COUNT):
 			timers.append(randf_range(MIN_SPIN, MAX_SPIN))
 		_sync_setup.rpc(timers)
 
+func _spawn_coins() -> void:
+	var cols = 4
+	var coin_size = Vector2(200, 200)
+	var padding = Vector2(80, 100)
+	var grid_width = cols * (coin_size.x + padding.x) - padding.x
+	var start_x = (1920 - grid_width) / 2
+	var start_y = 300.0
+	print("spawning coins, container:", coins_container)
 
+	for i in range(COIN_COUNT):
+		var coin = coin_scene.instantiate()
+		coins_container.add_child(coin)
+		coin.coin_idx = i
+		coin.coin_pressed.connect(_on_coin_pressed)
+		coins.append(coin)
 
-###
+		var col = i % cols
+		var row = i / cols
+		coin.position = Vector2(
+			start_x + col * (coin_size.x + padding.x),
+			start_y + row * (coin_size.y + padding.y)
+		)
+		print("spawned coin ", i, " at ", coin.position)
+
 @rpc("authority", "call_local", "reliable")
 func _sync_setup(timers: Array) -> void:
 	coin_timers = timers
-	# show only as many coins as there are active players
 	var active = GameState.players.size()
-	for i in range(coin_slots.size()):
+	for i in range(COIN_COUNT):
 		if i < active:
-			coin_slots[i].visible = true
-			#coin_slots[i].get_node("AnimationPlayer").play("idle")   # gentle wobble # play animation
+			coins[i].activate()
 		else:
-			coin_slots[i].visible = false
- 
+			coins[i].deactivate()
 
-### Peer -> Host 
+func _on_coin_pressed(coin_idx: int) -> void:
+	if game_started or my_coin != -1:
+		return
+	request_claim.rpc_id(1, coin_idx, local_steam_id)
+
 @rpc("any_peer", "call_remote", "reliable")
 func request_claim(coin_idx: int, steam_id: int) -> void:
-	# only host runs this
-	if coin_owners.has(coin_idx):
-		return   # already claimed, ignore
-	if steam_id in coin_owners.values():
-		return   # player already owns a coin
+	if coin_owners.has(coin_idx) or steam_id in coin_owners.values():
+		return
 	coin_owners[coin_idx] = steam_id
 	_broadcast_claim.rpc(coin_idx, steam_id)
-	# if all active players have claimed, start spinning
 	if coin_owners.size() >= GameState.players.size():
 		_start_spin.rpc()
- 
+
 @rpc("authority", "call_local", "reliable")
 func _broadcast_claim(coin_idx: int, steam_id: int) -> void:
 	coin_owners[coin_idx] = steam_id
 	if steam_id == local_steam_id:
 		my_coin = coin_idx
-	# find this player's sprite index
 	var sprite_idx := 0
 	var pname := ""
 	for p in GameState.players:
@@ -73,50 +87,34 @@ func _broadcast_claim(coin_idx: int, steam_id: int) -> void:
 			sprite_idx = p["sprite_idx"]
 			pname = p["player_name"]
 			break
-	var slot = coin_slots[coin_idx]
-	slot.get_node("Sprite2D").texture = load(GameState.SPRITES[sprite_idx])
-	slot.get_node("Sprite2D").visible = true
-	slot.get_node("Label").text = pname
-	slot.get_node("Label").visible = true
- 
+	coins[coin_idx].set_player(sprite_idx, pname)
 
-func _on_coin_pressed(coin_idx: int) -> void:
-	if game_started:
-		return
-	if my_coin != -1:
-		return   # already picked
-	# send claim request to host
-	request_claim.rpc_id(1, coin_idx, local_steam_id)
- 
 @rpc("authority", "call_local", "reliable")
 func _start_spin() -> void:
 	game_started = true
 	spin_start_time = Time.get_ticks_msec() / 1000.0
-	# play spin animation on all claimed coins
-	for i in range(coin_slots.size()):
+	for i in range(COIN_COUNT):
 		if coin_owners.has(i):
-			coin_slots[i].get_node("AnimationPlayer").play("spin")
-	# schedule each coin's fall using its timer
-	for i in range(coin_slots.size()):
-		if coin_owners.has(i):
+			coins[i].start_spin()
 			var t = coin_timers[i]
 			get_tree().create_timer(t).timeout.connect(_on_coin_fall.bind(i))
- 
+
 func _on_coin_fall(coin_idx: int) -> void:
-	coin_slots[coin_idx].get_node("AnimationPlayer").play("fall")
-	# if this is our coin, submit score (elapsed survival time in ms as int)
+	coins[coin_idx].fall()
 	if coin_idx == my_coin:
-		var elapsed = (Time.get_ticks_msec() / 1000.0) - spin_start_time
-		var score = int(elapsed * 1000)   # ms, higher = better
-		submit_score.rpc_id(1, local_steam_id, score)
- 
+		_submit_my_score()
+
+func _submit_my_score() -> void:
+	if score_submitted:
+		return
+	score_submitted = true
+	var elapsed = (Time.get_ticks_msec() / 1000.0) - spin_start_time
+	submit_score.rpc_id(1, local_steam_id, int(elapsed * 1000))
+
 @rpc("any_peer", "call_local", "reliable")
 func submit_score(steam_id: int, points: int) -> void:
 	MinigameManager.submit_score(steam_id, points)
 
 func _on_time_up() -> void:
-	# submit whatever time we've survived so far if we haven't already
 	if my_coin != -1 and game_started:
-		var elapsed = (Time.get_ticks_msec() / 1000.0) - spin_start_time
-		submit_score.rpc_id(1, local_steam_id, int(elapsed * 1000))
- 
+		_submit_my_score()
