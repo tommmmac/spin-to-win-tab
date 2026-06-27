@@ -21,7 +21,7 @@ var players: Array = []
 # each entry is a dict like:
 # { "steam_id": 123, "player_name": "Tom", "sprite_idx": 2, "hearts": 3 }
 
-var minigames: Array = ["Clothesline"]  # add names from dictionary when complete
+var minigames: Array = ["Clothesline", "HulaHoop"]  # add names from dictionary when complete
 var current_minigame_index: int = 0
 
 var next_scene: String = ""
