@@ -3,16 +3,17 @@ extends Node2D
 @export var segments: Array[Node] = []
 
 var segment_assignments: Dictionary = {}
-var received_scores: Dictionary = {}
+
 
 func _ready():
-	for i in range(segments.size()):
-		print("segments[", i, "] = ", segments[i].name, " at position ", segments[i].position)
+	
 	for segment in segments:
 		segment.deactivate()
 	assign_segments()
-	MinigameManager.start_minigame(30.0)
+	
 	MinigameManager.minigame_ended.connect(_on_time_up)
+	MinigameManager.start_minigame(30.0)
+	
 
  
 func assign_segments():
@@ -56,12 +57,11 @@ func _spawn_local_player(segment: Node):
 
 # called when timer runs out
 func _on_time_up() -> void:
-	var local_steam_id = Steam.getSteamID()
-	var seg_idx = segment_assignments.get(local_steam_id, -1)
+	var seg_idx = segment_assignments.get(Steam.getSteamID(), -1)
 	if seg_idx == -1:
 		return
 	var points = segments[seg_idx].get_points()
-	submit_score.rpc_id(1, local_steam_id, points)
+	submit_score.rpc_id(1, Steam.getSteamID(), points)
 
 # called by spawner when its own timer runs out
 func on_segment_finished() -> void:
@@ -80,21 +80,4 @@ func broadcast_score(steam_id: int, new_score: int) -> void:
 
 @rpc("any_peer", "call_remote", "reliable")
 func submit_score(steam_id: int, points: int) -> void:
-	print("received score from: ", steam_id, " points: ", points)
-	received_scores[steam_id] = points
-	if received_scores.size() >= segment_assignments.size():
-		_calculate_results()
-
-func _calculate_results() -> void:
-	var results = []
-	for steam_id in received_scores:
-		results.append({"steam_id": steam_id, "points": received_scores[steam_id]})
-	
-	results.sort_custom(func(a, b): return a["points"] < b["points"])
-	print("results: ", results)
-	
-	var lose_count = results.size() / 2
-	for i in range(lose_count):
-		MinigameManager.eliminate_player(results[i]["steam_id"])
-	
-	GameState.sync_and_finish()
+	MinigameManager.submit_score(steam_id, points)

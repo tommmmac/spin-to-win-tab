@@ -1,35 +1,29 @@
 extends Node2D
-
 @export var segments: Array[Node] = []
 var segment_assignments: Dictionary = {}
-var received_scores: Dictionary = {}
 
 func _ready():
 	for segment in segments:
 		segment.deactivate()
+	MinigameManager.minigame_ended.connect(_on_time_up)
 	assign_segments()
 	MinigameManager.start_minigame(30.0)
-	MinigameManager.minigame_ended.connect(_on_time_up)
 
 func assign_segments():
 	if not multiplayer.is_server():
 		return
-	
 	var lobby_id = GameState.lobby_id
 	var member_count = Steam.getNumLobbyMembers(lobby_id)
-	
 	var assignments = {}
 	for i in range(min(member_count, segments.size())):
 		var steam_id = Steam.getLobbyMemberByIndex(lobby_id, i)
 		assignments[steam_id] = i
-	
 	_sync_assignments.rpc(assignments)
 
 @rpc("authority", "call_local", "reliable")
 func _sync_assignments(assignments: Dictionary) -> void:
 	segment_assignments = assignments
 	var local_id = Steam.getSteamID()
-	
 	for steam_id in assignments:
 		var idx = assignments[steam_id]
 		if steam_id == local_id:
@@ -45,10 +39,8 @@ func _spawn_player_sprite(segment: Node) -> void:
 		if p["steam_id"] == local_steam_id:
 			sprite_idx = p["sprite_idx"]
 			break
-	
 	var sprite = Sprite2D.new()
 	sprite.texture = load(GameState.SPRITES[sprite_idx])
-	# Position at the hula hoop location within the segment
 	sprite.position = segment.get_node("HulaHoopSprite").global_position
 	add_child(sprite)
 
@@ -62,24 +54,7 @@ func _on_time_up() -> void:
 
 @rpc("any_peer", "call_remote", "reliable")
 func submit_score(steam_id: int, points: int) -> void:
-	print("Received score from: ", steam_id, " points: ", points)
-	received_scores[steam_id] = points
-	if received_scores.size() >= segment_assignments.size():
-		_calculate_results()
-
-func _calculate_results() -> void:
-	var results = []
-	for steam_id in received_scores:
-		results.append({"steam_id": steam_id, "points": received_scores[steam_id]})
-	
-	results.sort_custom(func(a, b): return a["points"] < b["points"])
-	print("Results: ", results)
-	
-	var lose_count = results.size() / 2
-	for i in range(lose_count):
-		MinigameManager.eliminate_player(results[i]["steam_id"])
-	
-	GameState.sync_and_finish()
+	MinigameManager.submit_score(steam_id, points)
 
 @rpc("any_peer", "call_local", "reliable")
 func broadcast_score(steam_id: int, new_score: int) -> void:
