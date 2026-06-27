@@ -24,6 +24,7 @@ func start_spin() -> void:
 	anim.play("spin")
 
 func fall() -> void:
+	print("coin falling: ", coin_idx)
 	is_spinning = false
 	anim.stop()
 	anim.visible = false

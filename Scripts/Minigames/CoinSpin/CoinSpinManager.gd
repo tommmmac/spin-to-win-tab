@@ -14,6 +14,7 @@ var local_steam_id: int = 0
 var score_submitted: bool = false
 var coins_fallen: int = 0
 var total_claimed: int = 0
+var my_score: int = 0
 
 const MIN_SPIN := 3.0
 const MAX_SPIN := 20.0
@@ -23,12 +24,14 @@ func _ready() -> void:
 	local_steam_id = Steam.getSteamID()
 	MinigameManager.minigame_ended.connect(_on_time_up)
 	_spawn_coins()
+
 	if multiplayer.is_server():
 		var timers: Array = []
 		for i in range(COIN_COUNT):
 			timers.append(randf_range(MIN_SPIN, MAX_SPIN))
 		_sync_setup.rpc(timers)
-
+		
+		
 func _spawn_coins() -> void:
 	var cols = 4
 	var coin_size = Vector2(200, 200)
@@ -90,37 +93,31 @@ func _broadcast_claim(coin_idx: int, steam_id: int) -> void:
 @rpc("authority", "call_local", "reliable")
 func _start_spin() -> void:
 	game_started = true
-	total_claimed = coin_owners.size()  # lock in count at spin start
+	total_claimed = coin_owners.size()
 	spin_start_time = Time.get_ticks_msec() / 1000.0
+	if multiplayer.is_server():
+		MinigameManager.start_minigame(25.0)
 	for i in range(COIN_COUNT):
 		if coin_owners.has(i):
 			coins[i].start_spin()
 			var t = coin_timers[i]
 			get_tree().create_timer(t).timeout.connect(_on_coin_fall.bind(i))
-			
+		else:
+			coins[i].deactivate()
 			
 func _on_coin_fall(coin_idx: int) -> void:
 	coins[coin_idx].fall()
-	coins_fallen += 1
 	if coin_idx == my_coin:
-		_submit_my_score()
-	if coins_fallen >= total_claimed:
-		await get_tree().create_timer(5.0).timeout
-		if multiplayer.is_server():
-			MinigameManager.end_minigame()
-	
-		
-func _submit_my_score() -> void:
-	if score_submitted:
-		return
-	score_submitted = true
-	var elapsed = (Time.get_ticks_msec() / 1000.0) - spin_start_time
-	submit_score.rpc_id(1, local_steam_id, int(elapsed * 1000))
+		var elapsed = (Time.get_ticks_msec() / 1000.0) - spin_start_time
+		my_score = int(elapsed * 1000)
+
+			
 
 @rpc("any_peer", "call_local", "reliable")
 func submit_score(steam_id: int, points: int) -> void:
 	MinigameManager.submit_score(steam_id, points)
 
 func _on_time_up() -> void:
-	if my_coin != -1 and game_started:
-		_submit_my_score()
+	if my_coin != -1:
+		submit_score.rpc_id(1, local_steam_id, my_score)
+		
