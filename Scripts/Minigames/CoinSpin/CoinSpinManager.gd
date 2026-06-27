@@ -54,19 +54,15 @@ func _spawn_coins() -> void:
 @rpc("authority", "call_local", "reliable")
 func _sync_setup(timers: Array) -> void:
 	coin_timers = timers
-	var active = GameState.players.size()
 	for i in range(COIN_COUNT):
-		if i < active:
-			coins[i].activate()
-		else:
-			coins[i].deactivate()
-
+		coins[i].activate()
+			
 func _on_coin_pressed(coin_idx: int) -> void:
 	if game_started or my_coin != -1:
 		return
 	request_claim.rpc_id(1, coin_idx, local_steam_id)
 
-@rpc("any_peer", "call_remote", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func request_claim(coin_idx: int, steam_id: int) -> void:
 	if coin_owners.has(coin_idx) or steam_id in coin_owners.values():
 		return

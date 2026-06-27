@@ -7,6 +7,7 @@ var scenes : Dictionary = { "MainMenu": "res://Scenes/Initialisation/MainMenu.ts
 							"Leaderboard" : "res://Scenes/Initialisation/Leaderboard.tscn",
 							"Clothesline": "res://Scenes/Minigames/Clothesline/minigame___clothesline.tscn",
 							"HulaHoop": "res://Scenes/Minigames/HulaHoop/minigame__HulaHoop.tscn",
+							"CoinSpin": "res://Scenes/Minigames/Coin/minigame__coin.tscn"
 							}
 
 

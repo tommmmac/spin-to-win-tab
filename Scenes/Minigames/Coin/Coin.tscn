@@ -100,4 +100,8 @@ texture_filter = 3
 sprite_frames = SubResource("SpriteFrames_4gytk")
 animation = &"spin"
 
-[node name="ClickArea" type="Area2D" parent="." unique_id=1979046627]
+[node name="Button" type="Button" parent="." unique_id=1837806182]
+offset_left = -33.0
+offset_top = -33.0
+offset_right = 32.0
+offset_bottom = 33.0
