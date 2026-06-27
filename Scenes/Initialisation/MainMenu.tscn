@@ -94,6 +94,7 @@ texture_hover = ExtResource("8_d4084")
 stretch_mode = 5
 
 [node name="CreateContainer" type="VBoxContainer" parent="." unique_id=428451639]
+visible = false
 layout_mode = 0
 offset_left = 1205.0
 offset_top = 122.0
@@ -105,11 +106,12 @@ layout_mode = 2
 texture = ExtResource("14_mqwyy")
 
 [node name="PlayerNameInput" type="LineEdit" parent="CreateContainer/PlayerName" unique_id=261302786]
-custom_minimum_size = Vector2(600, 200)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 1.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -129,7 +131,6 @@ layout_mode = 2
 texture = ExtResource("13_fe0cq")
 
 [node name="RoomNameInput" type="LineEdit" parent="CreateContainer/RoomName" unique_id=585899270]
-custom_minimum_size = Vector2(0, 200)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -150,7 +151,6 @@ layout_mode = 2
 texture = ExtResource("14_mqwyy")
 
 [node name="PasswordInput" type="LineEdit" parent="CreateContainer/Password" unique_id=973311152]
-custom_minimum_size = Vector2(0, 200)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -201,7 +201,6 @@ texture_hover = ExtResource("10_d4084")
 stretch_mode = 0
 
 [node name="JoinContainer" type="VBoxContainer" parent="." unique_id=1171367121]
-visible = false
 layout_mode = 0
 offset_left = 1170.0
 offset_top = 30.0
@@ -238,7 +237,6 @@ layout_mode = 2
 texture = ExtResource("14_mqwyy")
 
 [node name="RoomNameInput" type="LineEdit" parent="JoinContainer/RoomName" unique_id=769180653]
-custom_minimum_size = Vector2(0, 200)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -262,7 +260,6 @@ layout_mode = 2
 texture = ExtResource("15_uwfw4")
 
 [node name="PasswordInput" type="LineEdit" parent="JoinContainer/Password" unique_id=1036309964]
-custom_minimum_size = Vector2(0, 200)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
