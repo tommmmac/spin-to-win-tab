@@ -78,6 +78,6 @@ func broadcast_score(steam_id: int, new_score: int) -> void:
 		var idx = segment_assignments[steam_id]
 		segments[idx].set_score_display(new_score)
 
-@rpc("any_peer", "call_remote", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func submit_score(steam_id: int, points: int) -> void:
 	MinigameManager.submit_score(steam_id, points)

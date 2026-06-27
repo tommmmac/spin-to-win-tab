@@ -52,7 +52,7 @@ func _on_time_up() -> void:
 	var points = segments[seg_idx].get_points()
 	submit_score.rpc_id(1, local_steam_id, points)
 
-@rpc("any_peer", "call_remote", "reliable")
+@rpc("any_peer", "call_local", "reliable")
 func submit_score(steam_id: int, points: int) -> void:
 	MinigameManager.submit_score(steam_id, points)
 
