@@ -2,9 +2,9 @@ extends Node2D
 
 # --- Nodes ---
 @onready var key_sprite: Sprite2D = $InputPrompt/KeySprite
-@onready var timer_label: Label = $TimerLabel
+
 @onready var score_label: Label = $ScoreLabel
-@onready var game_timer: Timer = $GameTimer
+
 @onready var hula_hoop: AnimatedSprite2D = $HulaHoopSprite
 
 # --- Key sequence & textures ---
@@ -37,9 +37,8 @@ var waiting_for_input: bool = false
 var is_active: bool = false
 
 func _ready() -> void:
-	game_timer.wait_time = 1.0
-	game_timer.autostart = true
-	game_timer.timeout.connect(_on_second_tick)
+	
+
 	waiting_for_input = true
 	input_timer = input_window
 	_update_key_sprite()
@@ -136,13 +135,13 @@ func _update_key_sprite() -> void:
 
 func _on_second_tick() -> void:
 	time_left -= 1
-	timer_label.text = str(int(time_left))
+
 	if time_left <= 0:
 		_end_game()
 
 func _update_ui() -> void:
 	score_label.text = "Score: %d" % score
-	timer_label.text = str(int(time_left))
+
 	
 
 func activate() -> void:
@@ -150,14 +149,14 @@ func activate() -> void:
 	set_process(true)
 	set_process_input(true)
 	game_active = true
-	game_timer.start()
+
 
 func deactivate() -> void:
 	is_active = false
 	set_process(false)
 	set_process_input(false)
 	game_active = false
-	game_timer.stop()
+
 	key_sprite.visible = false
 
 func activate_spectator() -> void:
@@ -177,6 +176,6 @@ func set_score_display(new_score: int) -> void:
 
 func _end_game() -> void:
 	game_active = false
-	game_timer.stop()
+
 	# Show final score, transition to results screen, etc.
 	print("Game Over! Final score: ", score)
