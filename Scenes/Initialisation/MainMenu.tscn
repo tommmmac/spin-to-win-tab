@@ -76,18 +76,21 @@ offset_bottom = 796.0
 scale = Vector2(2, 2)
 
 [node name="CreateBtn" type="TextureButton" parent="MainMenuContainer" unique_id=1371235708]
+texture_filter = 3
 layout_mode = 2
 texture_normal = ExtResource("3_o8og7")
 texture_hover = ExtResource("4_k62ai")
 stretch_mode = 5
 
 [node name="JoinBtn" type="TextureButton" parent="MainMenuContainer" unique_id=1182837241]
+texture_filter = 3
 layout_mode = 2
 texture_normal = ExtResource("5_xg7f3")
 texture_hover = ExtResource("6_jx5i6")
 stretch_mode = 5
 
 [node name="QuitBtn" type="TextureButton" parent="MainMenuContainer" unique_id=865266331]
+texture_filter = 3
 layout_mode = 2
 texture_normal = ExtResource("7_v5i8f")
 texture_hover = ExtResource("8_d4084")
@@ -102,6 +105,7 @@ offset_right = 1805.0
 offset_bottom = 1138.0
 
 [node name="PlayerName" type="TextureRect" parent="CreateContainer" unique_id=1427034051]
+texture_filter = 3
 layout_mode = 2
 texture = ExtResource("14_mqwyy")
 
@@ -127,6 +131,7 @@ placeholder_text = "Player Name:"
 alignment = 1
 
 [node name="RoomName" type="TextureRect" parent="CreateContainer" unique_id=5988063]
+texture_filter = 3
 layout_mode = 2
 texture = ExtResource("13_fe0cq")
 
@@ -147,6 +152,7 @@ placeholder_text = "Room Name:"
 alignment = 1
 
 [node name="Password" type="TextureRect" parent="CreateContainer" unique_id=300130764]
+texture_filter = 3
 layout_mode = 2
 texture = ExtResource("14_mqwyy")
 
@@ -187,6 +193,7 @@ value = 2.0
 alignment = 1
 
 [node name="CreateButton" type="TextureButton" parent="CreateContainer" unique_id=770941487]
+texture_filter = 3
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 texture_normal = ExtResource("9_3wfwo")
@@ -194,6 +201,7 @@ texture_hover = ExtResource("10_fe0cq")
 stretch_mode = 0
 
 [node name="BackButton" type="TextureButton" parent="CreateContainer" unique_id=2019218329]
+texture_filter = 3
 custom_minimum_size = Vector2(0, 150)
 layout_mode = 2
 texture_normal = ExtResource("9_v5i8f")
@@ -208,6 +216,7 @@ offset_right = 1770.0
 offset_bottom = 1046.0
 
 [node name="PlayerName" type="TextureRect" parent="JoinContainer" unique_id=1215772016]
+texture_filter = 3
 layout_mode = 2
 size_flags_vertical = 3
 texture = ExtResource("13_fe0cq")
@@ -233,6 +242,7 @@ placeholder_text = "Player Name:"
 alignment = 1
 
 [node name="RoomName" type="TextureRect" parent="JoinContainer" unique_id=74402484]
+texture_filter = 3
 layout_mode = 2
 texture = ExtResource("14_mqwyy")
 
@@ -256,6 +266,7 @@ placeholder_text = "Room Name:"
 alignment = 1
 
 [node name="Password" type="TextureRect" parent="JoinContainer" unique_id=191313980]
+texture_filter = 3
 layout_mode = 2
 texture = ExtResource("15_uwfw4")
 
@@ -279,6 +290,7 @@ secret = true
 secret_character = "*"
 
 [node name="JoinLobbyButton" type="TextureButton" parent="JoinContainer" unique_id=1616633429]
+texture_filter = 3
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 texture_normal = ExtResource("13_ojqaw")
@@ -286,6 +298,7 @@ texture_hover = ExtResource("14_fqyhv")
 stretch_mode = 0
 
 [node name="BackButton" type="TextureButton" parent="JoinContainer" unique_id=576903189]
+texture_filter = 3
 custom_minimum_size = Vector2(0, 200)
 layout_mode = 2
 texture_normal = ExtResource("9_v5i8f")
