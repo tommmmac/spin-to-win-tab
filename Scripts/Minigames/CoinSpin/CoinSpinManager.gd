@@ -13,6 +13,7 @@ var game_started: bool = false
 var local_steam_id: int = 0
 var score_submitted: bool = false
 var coins_fallen: int = 0
+var total_claimed: int = 0
 
 const MIN_SPIN := 3.0
 const MAX_SPIN := 20.0
@@ -89,23 +90,26 @@ func _broadcast_claim(coin_idx: int, steam_id: int) -> void:
 @rpc("authority", "call_local", "reliable")
 func _start_spin() -> void:
 	game_started = true
+	total_claimed = coin_owners.size()  # lock in count at spin start
 	spin_start_time = Time.get_ticks_msec() / 1000.0
 	for i in range(COIN_COUNT):
 		if coin_owners.has(i):
 			coins[i].start_spin()
 			var t = coin_timers[i]
 			get_tree().create_timer(t).timeout.connect(_on_coin_fall.bind(i))
-
+			
+			
 func _on_coin_fall(coin_idx: int) -> void:
 	coins[coin_idx].fall()
 	coins_fallen += 1
 	if coin_idx == my_coin:
 		_submit_my_score()
-	# if all claimed coins have fallen, wait 5s then end
-	if coins_fallen >= coin_owners.size():
+	if coins_fallen >= total_claimed:
 		await get_tree().create_timer(5.0).timeout
-		MinigameManager.end_minigame()
-
+		if multiplayer.is_server():
+			MinigameManager.end_minigame()
+	
+		
 func _submit_my_score() -> void:
 	if score_submitted:
 		return

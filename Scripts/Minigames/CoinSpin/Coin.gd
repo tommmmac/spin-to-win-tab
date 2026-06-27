@@ -26,7 +26,8 @@ func start_spin() -> void:
 func fall() -> void:
 	is_spinning = false
 	anim.stop()
-	visible = false
+	anim.visible = false
+	player_sprite.visible = true  # show static coin again
 
 func activate() -> void:
 	visible = true
