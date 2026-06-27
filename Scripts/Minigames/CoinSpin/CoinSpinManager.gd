@@ -12,6 +12,7 @@ var spin_start_time: float = 0.0
 var game_started: bool = false
 var local_steam_id: int = 0
 var score_submitted: bool = false
+var coins_fallen: int = 0
 
 const MIN_SPIN := 3.0
 const MAX_SPIN := 20.0
@@ -97,8 +98,13 @@ func _start_spin() -> void:
 
 func _on_coin_fall(coin_idx: int) -> void:
 	coins[coin_idx].fall()
+	coins_fallen += 1
 	if coin_idx == my_coin:
 		_submit_my_score()
+	# if all claimed coins have fallen, wait 5s then end
+	if coins_fallen >= coin_owners.size():
+		await get_tree().create_timer(5.0).timeout
+		MinigameManager.end_minigame()
 
 func _submit_my_score() -> void:
 	if score_submitted:
