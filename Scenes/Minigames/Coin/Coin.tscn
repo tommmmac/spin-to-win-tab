@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://doog4by8jf3nu"]
+
+[ext_resource type="Texture2D" uid="uid://d1yce2ks0pxu1" path="res://Assets/Sprites/MiniGames/Coin/KangarooCoin.png" id="1_u0svt"]
+
+[node name="Coin" type="Node2D" unique_id=615440636]
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=912309213]
+texture = ExtResource("1_u0svt")
