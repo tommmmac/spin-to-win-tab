@@ -7,26 +7,17 @@
 script = ExtResource("1_c57ch")
 
 [node name="HulaHoopSprite" parent="." unique_id=956614942 instance=ExtResource("2_rxy8y")]
-position = Vector2(953, 496)
+position = Vector2(280, 250)
 autoplay = ""
 
 [node name="InputPrompt" type="Node2D" parent="." unique_id=1768490996]
-position = Vector2(953, 569)
+position = Vector2(271, 315)
 
 [node name="KeySprite" type="Sprite2D" parent="InputPrompt" unique_id=1541778858]
 
-[node name="TimerLabel" type="Label" parent="." unique_id=1261618703]
-offset_left = 1037.0
-offset_top = 412.0
-offset_right = 1077.0
-offset_bottom = 435.0
-text = "30"
-
 [node name="ScoreLabel" type="Label" parent="." unique_id=1161558345]
-offset_left = 816.0
-offset_top = 417.0
-offset_right = 877.0
-offset_bottom = 440.0
+offset_left = 134.0
+offset_top = 163.0
+offset_right = 195.0
+offset_bottom = 186.0
 text = "Score: 0"
-
-[node name="GameTimer" type="Timer" parent="." unique_id=65391089]

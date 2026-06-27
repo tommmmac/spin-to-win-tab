@@ -5,7 +5,8 @@ extends Node
 var scenes : Dictionary = { "MainMenu": "res://Scenes/Initialisation/MainMenu.tscn",
 							"Lobby": "res://Scenes/Initialisation/GameLobby.tscn",
 							"Leaderboard" : "res://Scenes/Initialisation/Leaderboard.tscn",
-							"Clothesline": "res://Scenes/Minigames/Clothesline/minigame___clothesline.tscn"
+							"Clothesline": "res://Scenes/Minigames/Clothesline/minigame___clothesline.tscn",
+							"HulaHoop": "res://Scenes/Minigames/HulaHoop/minigame__HulaHoop.tscn"
 							}
 
 

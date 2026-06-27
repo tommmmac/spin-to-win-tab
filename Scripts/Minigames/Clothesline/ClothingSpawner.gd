@@ -71,8 +71,16 @@ func success_round():
 	score += 1
 	score_label.text = "Score: " + str(score)
 	inputTime = max(min_input_time, inputTime - 0.1)
+	
+	var manager = get_parent()
+	manager.broadcast_score.rpc(Steam.getSteamID(), score)
+	
 	await get_tree().create_timer(0.1).timeout
 	spawn_round()
+	
+func set_score_display(new_score: int) -> void:
+	score = new_score
+	score_label.text = "Score: " + str(score)
 
 func fail_round():
 	if not round_active:
@@ -110,6 +118,13 @@ func _process(delta):
 func get_points() -> int:
 	return score
 
+func activate_spectator():
+	is_active = false  # not active so inputs dont work
+	set_process(true)  # allow process so clothes can move
+	prompt1.visible = false  # hide inputs
+	prompt2.visible = false
+	score_label.visible = true  # show score
+	spawn_round()
 
 func end_game():
 	round_active = false
