@@ -96,7 +96,9 @@ func _start_spin() -> void:
 	total_claimed = coin_owners.size()
 	spin_start_time = Time.get_ticks_msec() / 1000.0
 	if multiplayer.is_server():
+		print("calling start_minigame")
 		MinigameManager.start_minigame(25.0)
+		
 	for i in range(COIN_COUNT):
 		if coin_owners.has(i):
 			coins[i].start_spin()

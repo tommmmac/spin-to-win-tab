@@ -13,8 +13,8 @@ func start_minigame(duration: float = 30) -> void:
 	_timer.timeout.connect(_on_time_up)
 	
 func _on_time_up() -> void:
-	print("minigame timer up, emitting minigame_ended")
-	emit_signal("minigame_ended")
+	print("MinigameManager time up")
+	_broadcast_end.rpc()
 
 func submit_score(steam_id: int, points: int) -> void:
 	print("submit_score: ", steam_id, " points: ", points)
@@ -22,6 +22,9 @@ func submit_score(steam_id: int, points: int) -> void:
 	if received_scores.size() >= expected_players:
 		_calculate_results()
 
+@rpc("authority", "call_local", "reliable")
+func _broadcast_end() -> void:
+	emit_signal("minigame_ended")
 
 func _calculate_results() -> void:
 	var results = []
