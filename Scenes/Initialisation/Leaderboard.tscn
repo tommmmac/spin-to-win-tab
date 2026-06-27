@@ -14,6 +14,7 @@ grow_vertical = 2
 script = ExtResource("1_4fcc1")
 
 [node name="Background" type="TextureRect" parent="." unique_id=2085103794]
+texture_filter = 3
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -23,6 +24,7 @@ grow_vertical = 2
 texture = ExtResource("2_cqph7")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="." unique_id=1360640262]
+texture_filter = 3
 clip_contents = true
 custom_minimum_size = Vector2(700, 800)
 layout_mode = 1
