@@ -34,11 +34,14 @@ func get_next_minigame() -> String:
 	return mg
 
 func eliminate_player(steam_id: int):
+	print("eliminate_player called for: ", steam_id)
 	for p in players:
 		if p["steam_id"] == steam_id:
 			p["hearts"] -= 1
+			print("hearts now: ", p["hearts"])
 			break
 	if multiplayer.is_server():
+		print("syncing hearts via RPC")
 		var hearts_data = players.map(func(p): return {"steam_id": p["steam_id"], "hearts": p["hearts"]})
 		_sync_hearts.rpc(hearts_data)
 
@@ -59,10 +62,12 @@ func sync_and_finish() -> void:
 
 @rpc("authority", "call_local", "reliable")
 func _sync_hearts(hearts_data: Array) -> void:
+	print("_sync_hearts received: ", hearts_data)
 	for entry in hearts_data:
 		for p in players:
 			if p["steam_id"] == entry["steam_id"]:
 				p["hearts"] = entry["hearts"]
+	print("emitting players_synced")
 	emit_signal("players_synced")
 
 

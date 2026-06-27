@@ -11,6 +11,7 @@ func _ready():
 		SceneManager.transition_to_scene(GameState.next_scene)
 
 func _on_players_synced():
+	print("_on_players_synced fired, player count: ", GameState.players.size())
 	# clear and repopulate with updated hearts
 	for child in $NinePatchRect/MarginContainer/VBoxContainer.get_children():
 		child.queue_free()
